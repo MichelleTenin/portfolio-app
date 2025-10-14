@@ -1,21 +1,25 @@
 ---
+    import "../styles/global.css";
     import Link from "../components/Link.astro";
-    import '../styles/global.css';
-    const { title = "Home" } = Astro.props;
+
+    const {
+        title = "My Astro Site",
+    } = Astro.props;
 ---
 
-<html>
+<html lang="en">
 
 <head>
     <title>{title}</title>
 </head>
 
-<body class="bg-base-200 flex items-center justify-center min-h-screen">
+<body>
     <nav>
         <Link href="/">Home</Link>
         <Link href="/about">About</Link>
     </nav>
     <main>
+        <div style="height:100px;"></div>
         <slot />
     </main>
 </body>
