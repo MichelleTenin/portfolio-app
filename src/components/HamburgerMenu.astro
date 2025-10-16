@@ -1,0 +1,41 @@
+---
+import { Image } from "astro:assets";
+import menuOpen from "../assets/menu-open.png";
+import menuClosed from "../assets/menu-closed.png";
+---
+
+<button id="hamburger-btn" class="btn btn-ghost lg:hidden">
+    <Image
+        src={menuClosed}
+        alt="Menu"
+        class="w-5 h-5 menu-closed"
+        id="menu-closed-icon"
+    />
+    <Image
+        src={menuOpen}
+        alt="Menu"
+        class="w-5 h-5 menu-open hidden"
+        id="menu-open-icon"
+    />
+</button>
+
+<script>
+    // Client-side JavaScript for toggling menu icons
+    const button = document.getElementById('hamburger-btn');
+    const closedIcon = document.getElementById('menu-closed-icon');
+    const openIcon = document.getElementById('menu-open-icon');
+
+    if (button && closedIcon && openIcon) {
+        button.addEventListener('click', () => {
+            closedIcon.classList.toggle('hidden');
+            openIcon.classList.toggle('hidden');
+        });
+    }
+</script>
+
+<style>
+    /* Optional: Add any custom styles here */
+    .hidden {
+        display: none;
+    }
+</style>
