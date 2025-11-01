@@ -1,7 +1,7 @@
 ---
-    const { href } = Astro.props;
+    const { href ='#', active = false } = Astro.props;
 ---
 
-<a href={href}>
+<a href={href} class="btn btn-ghost btn-md rounded-full font-bold tracking-wide hover:bg-primary hover:text-primary-content transition">
     <slot />
 </a>

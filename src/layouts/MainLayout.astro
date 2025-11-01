@@ -1,23 +1,21 @@
 ---
     import "../styles/global.css";
-    import Link from "../components/Link.astro";
+    import { navItems, siteTitle } from '../site.config';
+    import NavBar from "../components/NavBar.astro"
 
-    const {
-        title = "My Astro Site",
-    } = Astro.props;
+    const { currentPath = "/" } = Astro.props;
 ---
 
-<html lang="en">
+<html lang="en" data-theme="cupcake">
 
 <head>
-    <title>{title}</title>
+    <title>{siteTitle}</title>
 </head>
 
 <body>
-    <nav>
-        <Link href="/">Home</Link>
-        <Link href="/about">About</Link>
-    </nav>
+    <NavBar navItems={navItems} currentPath={currentPath} siteTitle={siteTitle}
+        class="fixed glass top-6 left-1/2 -translate-x-1/2 z-50 bg-base-200/80 border border-base-300 shadow-lg rounded-full px-8 py-3 flex items-center gap-8 backdrop-blur-md" />
+
     <main>
         <div style="height:100px;"></div>
         <slot />
