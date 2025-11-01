@@ -2,39 +2,40 @@
     import Link from "./Link.astro";
     import { Image } from "astro:assets";
     import SiteLogo from "../assets/SiteLogo.png";
-    import HamburgerMenu from "./HamburgerMenu.astro";
-    import type { NavItem } from '../site.config';
-    const { navItems = [], currentPath = "/", siteTitle = "" } = Astro.props;
 ---
 
-<div class="navbar bg-base-100 shadow-sm fixed top-0 left-0 w-full z-50">
-    <div class="navbar-start">
-        <!-- Mobile Dropdown -->
-        <div class="dropdown">
-            <HamburgerMenu />
-            <ul tabindex="-1" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow">
-                {navItems.map((item: NavItem) => (
+<!-- Container for centering -->
+<div class="w-full fixed top-0 left-0 flex justify-center z-50 px-4 pt-4">
+    <!-- Actual navbar with constrained width -->
+    <div class="navbar bg-base-100 shadow-lg rounded-box max-w-3xl w-full">
+        <div class="navbar-start">
+            <a class="btn btn-ghost text-xl" href="/">
+                <Image src={SiteLogo} alt="Logo" class="h-8 w-8 mr-2" />
+            </a>
+        </div>
+        <div class="navbar-center">
+            <ul class="menu menu-horizontal px-1">
+                <li><Link href="/" active={Astro.url.pathname === "/"}>Home</Link></li>
                 <li>
-                    <Link href={item.href} active={currentPath===item.href}>{item.name}</Link>
+                    <details class="dropdown dropdown-bottom">
+                        <summary class={["/aurora", "/mlloop", "/tecan", "/teststudio"].includes(Astro.url.pathname) ? "active" : ""}>
+                            Projects
+                        </summary>
+                        <ul class="dropdown-content z-[1] menu p-2 shadow-lg bg-base-100 rounded-box w-52">
+                            <li><Link href="/aurora" active={Astro.url.pathname === "/aurora"}>Aurora</Link></li>
+                            <li><Link href="/mlloop" active={Astro.url.pathname === "/mlloop"}>ML Loop</Link></li>
+                            <li><Link href="/tecan" active={Astro.url.pathname === "/tecan"}>Tecan</Link></li>
+                            <li><Link href="/teststudio" active={Astro.url.pathname === "/teststudio"}>Test Studio</Link></li>
+                        </ul>
+                    </details>
                 </li>
-                ))}
+                <li><Link href="/about" active={Astro.url.pathname === "/about"}>About</Link></li>
             </ul>
         </div>
-        <!-- Logo or App Name -->
-        <a class="btn btn-ghost text-xl" href="/">
-            <Image src={SiteLogo} alt="Logo" class="h-8 w-8 mr-2" />
-        </a>
-    </div>
-    <div class="navbar-center hidden lg:flex">
-        <ul class="menu menu-horizontal px-1">
-            {navItems.map((item: NavItem) => (
-            <li>
-                <Link href={item.href} active={currentPath===item.href}>{item.name}</Link>
-            </li>
-            ))}
-        </ul>
-    </div>
-    <div class="navbar-end">
-        <a class="btn">Button</a>
+        <div class="navbar-end">
+        </div>
     </div>
 </div>
+
+<!-- Spacer to prevent content from hiding under the navbar -->
+<div class="h-24"></div>
