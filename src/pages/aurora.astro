@@ -1,7 +1,23 @@
 ---
-	import MainLayout from "../layouts/MainLayout.astro";
+import CaseStudy from "../components/CaseStudy.astro";
+import { assets } from "../data/assets";
+const project = {
+  number:"01", title:"Aurora", headline:"I designed a support system for life after ovarian cancer treatment.", breadcrumb:"UW / Aurora", kind:"aurora", cover:assets.aurora.cover, layout:"aurora", kicker:"UX design · Systems thinking", role:"Product designer", duration:"Oct 2018—May 2019",
+  excerpt:"A hospital-based support system giving ovarian cancer survivors trusted guidance, community, and comfort.",
+  challengeTitle:"The end of treatment can feel like the start of uncertainty.", challenge:"Survivors described feeling adrift once treatment ended—unsure where to find trustworthy information or emotional support. Clinicians worried about misinformation and the lack of structured post-treatment planning.",
+  quote:"I spend a lot of time telling patients where not to look and what not to search.",
+  challengeMedia:assets.aurora.careCliff,
+  approachTitle:"Begin with deep listening.", approach:"Our team spoke with survivors in clinic waiting rooms and held dedicated sessions with oncologists and nurses. Journey and affinity mapping revealed three needs that shaped the concept: education, support, and connection.",
+  principles:["Verified information","Flexible support","Peer connection"],
+  processMedia:assets.aurora.process,
+  solutionTitle:"A safe starting point for post-treatment recovery.",
+  solution:"Aurora is a research and support kiosk placed on oncology floors. Its calm, private experience connects survivors with trustworthy information, relevant groups, and a network of peers at their own pace.",
+  solutionFeatures:["Personalized onboarding and curated resources","Privacy controls for anonymous participation","Content organized around connection, education, and support","Printed take-home summaries for continued access"],
+  solutionMedia:assets.aurora.storyboard,
+  solutionMediaAlt:"Storyboard showing the Aurora kiosk experience",
+  learning:"Aurora taught me that rigorous research and deep empathy can coexist. Safe spaces for dialogue are as important to the design process as the final interface.",
+  reflectionMedia:assets.aurora.reflection,
+  next:"Tecan", nextHref:"/tecan"
+};
 ---
-
-<MainLayout siteTitle="Aurora">
-	<p>Aurora</p>
-</MainLayout>
+<CaseStudy {project} />

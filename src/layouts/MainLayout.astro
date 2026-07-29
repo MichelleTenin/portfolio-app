@@ -1,25 +1,47 @@
 ---
-    import "../styles/global.css";
-    import { navItems, siteTitle } from '../site.config';
-    import NavBar from "../components/NavBar.astro"
-
-    const { currentPath = "/" } = Astro.props;
+import "../styles/global.css";
+import NavBar from "../components/NavBar.astro";
+const {
+  title = "Michelle Tenin — Product Designer",
+  description = "Product designer turning complex systems into clear, useful experiences."
+} = Astro.props;
 ---
-
-<html lang="en" data-theme="cupcake">
-
-<head>
-    <title>{siteTitle}</title>
-</head>
-
-<body>
-    <NavBar navItems={navItems} currentPath={currentPath} siteTitle={siteTitle}
-        class="fixed glass top-6 left-1/2 -translate-x-1/2 z-50 bg-base-200/80 border border-base-300 shadow-lg rounded-full px-8 py-3 flex items-center gap-8 backdrop-blur-md" />
-
-    <main>
-        <div style="height:100px;"></div>
-        <slot />
-    </main>
-</body>
-
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <NavBar />
+    <main><slot /></main>
+    <footer class="shell">
+      <div class="footer-card">
+        <div class="footer-copy">
+          <p>I’m always looking for thoughtful teams, complicated systems, and useful problems to solve. Let’s connect.</p>
+        </div>
+        <div class="footer-actions" aria-label="Contact and social links">
+          <a href="mailto:mtenin3@gmail.com" aria-label="Email Michelle" title="Email">
+            <span aria-hidden="true">@</span>
+          </a>
+          <a href="https://drive.google.com/file/d/1eiaOI0Iv4D8ehYo9i_TyhKwAUlziBgl9/view" aria-label="View Michelle's résumé" title="Résumé">
+            <span class="cv" aria-hidden="true">CV</span>
+          </a>
+          <a href="https://www.linkedin.com/in/michelle-tenin-631019173" aria-label="Michelle on LinkedIn" title="LinkedIn">
+            <span class="linkedin" aria-hidden="true">in</span>
+          </a>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>
+<style>
+  footer{margin-top:6rem;padding-bottom:1.25rem}
+  .footer-card{display:flex;align-items:center;justify-content:space-between;gap:2rem;padding:1.75rem 2rem;border:1px solid color-mix(in srgb,var(--color-base-content) 9%,transparent);border-radius:22px;background:var(--color-base-100);box-shadow:inset 0 0 0 .5px color-mix(in srgb,white 45%,transparent)}
+  .footer-copy{max-width:480px}.footer-copy>p{max-width:450px;margin:0;font-size:.82rem;line-height:1.35rem;color:color-mix(in srgb,var(--color-base-content) 72%,transparent)}
+  .footer-actions{display:flex;align-items:center;gap:.25rem}.footer-actions a{width:34px;height:34px;display:grid;place-items:center;border-radius:9px;color:color-mix(in srgb,var(--color-base-content) 42%,transparent);text-decoration:none;transition:color .15s,background-color .15s,transform .1s}.footer-actions a:hover{color:color-mix(in srgb,var(--color-base-content) 88%,transparent);background:var(--color-base-200)}.footer-actions a:active{transform:scale(.96)}.footer-actions span{font-size:1rem;font-weight:600;line-height:1}.footer-actions .cv{font-size:.62rem;letter-spacing:.03em}.footer-actions .linkedin{font-family:Arial,sans-serif;font-size:.82rem;font-weight:700}
+  @media(max-width:650px){footer{margin-top:4rem}.footer-card{align-items:flex-start;flex-direction:column;gap:1.25rem;padding:1.4rem;border-radius:18px}.footer-actions{align-self:flex-end}}
+</style>

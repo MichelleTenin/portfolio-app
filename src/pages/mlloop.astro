@@ -1,7 +1,17 @@
 ---
-	import MainLayout from "../layouts/MainLayout.astro";
+import MainLayout from "../layouts/MainLayout.astro";
 ---
-
-<MainLayout siteTitle="MLLoop">
-	<p> MLLoop</p>
+<MainLayout title="MLOps — Michelle Tenin">
+  <section class="shell placeholder">
+    <a href="/#work">← All work</a>
+    <p>Nvidia / MLOps</p>
+    <h1 class="display">Case study coming soon.</h1>
+  </section>
 </MainLayout>
+
+<style>
+  .placeholder{min-height:calc(100vh - 88px);padding:3rem 0 8rem;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;max-width:1120px}
+  .placeholder>a{position:absolute;top:8rem;font-size:.78rem;color:var(--muted);text-underline-offset:4px}
+  .placeholder>p{margin:0 0 .75rem;font-size:.65rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+  h1{max-width:720px;margin:0;font-size:clamp(2.6rem,5vw,4.5rem)}
+</style>

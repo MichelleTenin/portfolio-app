@@ -1,0 +1,25 @@
+---
+const { kind = "aurora", label = "" } = Astro.props;
+---
+<div class={`visual ${kind}`} aria-label={label} role="img">
+  {kind === "aurora" && <div class="dash"><div class="dash-nav"></div><div class="metric"></div><div class="chart"><i></i><i></i><i></i><i></i><i></i></div><div class="side"></div></div>}
+  {kind === "mlloop" && <><div class="loop l1"></div><div class="loop l2"></div><div class="loop l3"></div><span class="spark">✦</span></>}
+  {kind === "tecan" && <div class="lab"><div class="lab-top"></div><div class="cells">{Array.from({length:12}).map(() => <i></i>)}</div><div class="panel"></div></div>}
+  {kind === "teststudio" && <div class="phone"><div class="phone-head"></div><div class="phone-card"></div><div class="phone-row"></div><div class="phone-row short"></div></div>}
+</div>
+<style>
+  .visual { position: relative; min-height: 430px; border-radius: 28px; overflow: hidden; display: grid; place-items: center; }
+  .aurora { background: #f3b74d; } .mlloop { background: #a7c8f0; } .tecan { background: #a9d4c4; } .teststudio { background: #f18b72; }
+  .dash, .lab { width: 78%; height: 68%; background: #fdfbf5; border-radius: 12px; box-shadow: 0 24px 50px #352b1c35; position: relative; padding: 16px; }
+  .dash-nav { width: 22%; height: 100%; background: #282727; border-radius: 7px; }
+  .metric { position: absolute; left: 27%; top: 16px; width: 29%; height: 30%; background: #f3eee2; border-radius: 7px; }
+  .chart { position: absolute; display: flex; align-items: end; gap: 7%; padding: 9%; left: 27%; bottom: 16px; width: 68%; height: 58%; background: #eee8db; border-radius: 7px; }
+  .chart i { flex: 1; height: 35%; border-radius: 4px 4px 0 0; background: #ee775e; }.chart i:nth-child(2){height:62%}.chart i:nth-child(3){height:48%}.chart i:nth-child(4){height:82%}.chart i:nth-child(5){height:70%}
+  .side { position:absolute; right:16px; top:16px; width:35%; height:30%; border-radius:7px; background:#e4a640; }
+  .loop { position:absolute; width:40%; aspect-ratio:1; border:22px solid #1c2739; border-radius:50%; opacity:.9; }.l1{transform:translateX(-38%)}.l2{transform:translateX(38%)}.l3{transform:translateY(34%); border-color:#fff6}
+  .spark { z-index:2; font-size:5rem; color:#fff; }
+  .lab { height: 62%; }.lab-top{height:18%; width:45%; background:#222; border-radius:5px}.cells{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:52%;margin-top:22px}.cells i{aspect-ratio:1;border-radius:50%;background:#c7e4d9;border:4px solid #77ad99}.panel{position:absolute;right:16px;top:16px;bottom:16px;width:35%;background:#f1eee5;border-radius:7px}
+  .phone { width: 46%; height: 78%; background:#faf8f2; border:8px solid #24211f; border-radius:30px; box-shadow:0 25px 45px #61261c40; padding:14% 9%; }
+  .phone-head{height:8%;width:55%;background:#222;border-radius:6px}.phone-card{height:35%;margin-top:15%;background:#f4c34d;border-radius:14px}.phone-row{height:5%;margin-top:13%;background:#c9c4ba;border-radius:5px}.phone-row.short{width:65%}
+  @media(max-width:700px){.visual{min-height:320px}}
+</style>

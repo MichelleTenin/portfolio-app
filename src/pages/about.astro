@@ -1,7 +1,105 @@
 ---
-	import MainLayout from "../layouts/MainLayout.astro";
----
+import MainLayout from "../layouts/MainLayout.astro";
+import { assets } from "../data/assets";
 
-<MainLayout siteTitle="About">
-	<p> About</p>
+const personalNotes = [
+  "Outside work, I’m usually making something with my hands.",
+  "I recharge outdoors whenever I can.",
+  "I share my home with two very opinionated cats.",
+];
+
+const toolkitPlaceholders = Array.from({ length: 8 }, (_, index) =>
+  `Tool ${String(index + 1).padStart(2, "0")}`
+);
+---
+<MainLayout title="About — Michelle Tenin">
+  <div class="about-page">
+    <section class="intro">
+      <img class="portrait portrait-desktop" src={assets.about.portrait} alt="Michelle holding one of her ceramic pieces" />
+      <h1 class="display">I like complexity. I love making it clear.</h1>
+      <img class="portrait portrait-mobile" src={assets.about.portrait} alt="Michelle holding one of her ceramic pieces" />
+      <p class="lead">I’m Michelle, a product designer working on complex, engineering-led systems at Nvidia.</p>
+      <p>I studied human-centered design at the University of Washington and Cognitive Science at UC San Diego, specializing in Design and Interaction with a minor in Computer Science.</p>
+      <p>That mix of design and technical curiosity shapes how I work: learn the system deeply, listen closely to the people inside it, and make the path forward understandable.</p>
+    </section>
+
+    <section class="content-section">
+      <div class="section-heading"><span>More about me</span><i></i></div>
+      <div class="personal-grid">
+        {personalNotes.map((caption, index) => (
+          <figure>
+            <div class={`image-placeholder placeholder-${index + 1}`} role="img" aria-label={`Photo placeholder ${index + 1}`}>
+              <span>Photo placeholder</span>
+            </div>
+            <figcaption>{caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+
+    <section class="content-section">
+      <div class="section-heading"><span>My toolkit</span><i></i></div>
+      <div class="toolkit-grid" aria-label="Toolkit placeholders">
+        {toolkitPlaceholders.map((tool, index) => (
+          <div class="tool">
+            <div class={`tool-icon tool-${(index % 4) + 1}`} aria-hidden="true"><i></i></div>
+            <span>{tool}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="content-section experience">
+      <div class="section-heading"><span>Experience</span><i></i></div>
+      <div class="rows">
+        <div><span>Current</span><strong>Nvidia · Product Design</strong><em>AI, ML & autonomous vehicles</em></div>
+        <div><span>2019—2020</span><strong>Tecan · Product Design</strong><em>Medtech manufacturing</em></div>
+        <div><span>Education</span><strong>UC San Diego</strong><em>Cognitive Science · Design & Interaction</em></div>
+      </div>
+      <a class="resume-link" href="https://drive.google.com/file/d/1eiaOI0Iv4D8ehYo9i_TyhKwAUlziBgl9/view">View résumé ↗</a>
+    </section>
+  </div>
 </MainLayout>
+
+<style>
+  .about-page{width:min(48rem,calc(100% - 48px));margin-inline:auto;padding:5rem 0 1rem}
+  .intro{overflow:hidden}
+  .intro h1{margin:0 0 1rem;font-size:1.75rem;line-height:1.2;text-wrap:pretty}
+  .intro p{margin:0 0 1rem;font-size:.875rem;line-height:1.45rem;color:color-mix(in srgb,var(--ink) 80%,transparent)}
+  .intro .lead{font-weight:550;color:var(--ink)}
+  .portrait{display:block;object-fit:cover;object-position:center 38%;border:1px solid color-mix(in srgb,var(--ink) 8%,transparent);border-radius:8px}
+  .portrait-desktop{float:right;width:38%;aspect-ratio:4/5;margin:0 0 1rem 2rem}
+  .portrait-mobile{display:none}
+  .content-section{padding-top:4rem}
+  .section-heading{display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem}
+  .section-heading span{font-size:.8rem;font-weight:550;white-space:nowrap}
+  .section-heading i{height:1px;flex:1;background:color-mix(in srgb,var(--ink) 8%,transparent)}
+  .personal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem}
+  .personal-grid figure{margin:0;transition:transform .2s ease}.personal-grid figure:hover{transform:translateY(-3px)}
+  .image-placeholder{position:relative;aspect-ratio:1;display:grid;place-items:center;overflow:hidden;border:1px solid color-mix(in srgb,var(--ink) 8%,transparent);border-radius:8px;background:var(--color-base-200)}
+  .image-placeholder::before,.image-placeholder::after{content:"";position:absolute;border-radius:50%;background:color-mix(in srgb,var(--color-primary) 18%,var(--color-base-200))}
+  .image-placeholder::before{width:68%;height:68%;left:-20%;top:-18%}.image-placeholder::after{width:44%;height:44%;right:-10%;bottom:-10%}
+  .placeholder-2::before{left:auto;right:-18%;top:-12%;background:color-mix(in srgb,var(--coral) 18%,var(--color-base-200))}.placeholder-2::after{right:auto;left:-8%;background:color-mix(in srgb,var(--blue) 24%,var(--color-base-200))}
+  .placeholder-3::before{top:auto;bottom:-24%;background:color-mix(in srgb,var(--mint) 30%,var(--color-base-200))}.placeholder-3::after{bottom:auto;top:-8%;background:color-mix(in srgb,var(--yellow) 28%,var(--color-base-200))}
+  .image-placeholder span{position:relative;z-index:1;font-size:.65rem;font-weight:600;color:color-mix(in srgb,var(--ink) 36%,transparent)}
+  figcaption{margin-top:.5rem;font-size:.75rem;line-height:1.15rem;color:color-mix(in srgb,var(--ink) 45%,transparent)}
+  .toolkit-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:.65rem}
+  .tool{text-align:center}.tool-icon{position:relative;aspect-ratio:1;display:grid;place-items:center;overflow:hidden;border:1px solid color-mix(in srgb,var(--ink) 8%,transparent);border-radius:14px;background:var(--color-base-200);box-shadow:0 1px 3px color-mix(in srgb,var(--ink) 7%,transparent)}
+  .tool-icon::after{content:"";position:absolute;inset:0;background:linear-gradient(155deg,rgba(255,255,255,.4),transparent 48%)}
+  .tool-icon i{width:34%;height:34%;border:1.5px solid currentColor;border-radius:3px;color:color-mix(in srgb,var(--ink) 35%,transparent)}
+  .tool-2 i{border-radius:50%}.tool-3 i{transform:rotate(45deg)}.tool-4 i{width:42%;height:18%;border-radius:99px}
+  .tool>span{display:block;margin-top:.35rem;font-size:.62rem;color:color-mix(in srgb,var(--ink) 42%,transparent)}
+  .rows>div{display:grid;grid-template-columns:105px 1.2fr 1fr;gap:1rem;padding:1rem 0;border-top:1px solid color-mix(in srgb,var(--ink) 8%,transparent);font-size:.78rem}
+  .rows span,.rows em{color:var(--muted)}.rows strong{font-weight:600}.rows em{font-style:normal}
+  .resume-link{display:inline-block;margin-top:1rem;font-size:.78rem;font-weight:650;text-underline-offset:4px}
+
+  @media(max-width:640px){
+    .about-page{width:min(100% - 28px,48rem);padding-top:3rem}
+    .portrait-desktop{display:none}.portrait-mobile{display:block;width:100%;aspect-ratio:4/3;margin:0 0 1.5rem}
+    .intro h1{font-size:1.5rem;line-height:1.25}
+    .content-section{padding-top:3.5rem}
+    .personal-grid{grid-template-columns:1fr;gap:1.75rem}.image-placeholder{aspect-ratio:4/3}
+    .toolkit-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .rows>div{grid-template-columns:1fr;gap:.25rem}
+  }
+</style>
