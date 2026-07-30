@@ -1,0 +1,459 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import CSHero from "../components/CSHero.astro";
+
+const project = {
+  number: "05",
+  title: "Unified Data Workspace",
+  headline: "I turned a request for a unified hub into an evidence-backed platform strategy.",
+  breadcrumb: "Data Platform Hub / SW Infra @ Nvidia",
+  kind: "dataworkspace",
+  showVisual: false,
+  role: "Product designer & design engineer",
+  duration: "~3 months · 2026",
+  excerpt:
+    "Before designing the interface, I investigated whether unification addressed the platform’s most consequential customer problems. I combined approximately 1,300 support requests with 10 qualitative interviews to define the problem space, prioritize opportunities, and shape an incremental product strategy.",
+};
+
+const sections = [
+  { id: "context", label: "Context" },
+  { id: "discovery", label: "Discovery" },
+  { id: "analysis", label: "Analysis" },
+  { id: "insight", label: "Key insight" },
+  { id: "strategy", label: "Strategy" },
+  { id: "architecture", label: "Architecture" },
+  { id: "outcome", label: "Outcome" },
+];
+
+const sectionIds = JSON.stringify(sections.map((section) => section.id));
+
+const personas = [
+  ["Data analyst / engineer", "Engineers who build and maintain data pipelines and semantic layers"],
+  ["Data explorer", "Analysts, PMs, and business users who mainly explore and consume data"],
+  ["ML practitioner", "People hands-on with model development and experiments"],
+  ["Team lead / technical owner", "Tech leads, staff engineers, or managers responsible for outcomes across data and ML work"],
+  ["Platform / MLOps / observability engineer", "Engineers who provide and operate the platform across compute, telemetry, and security"],
+  ["Data steward / governance officer", "People accountable for data quality, definitions, and compliance"],
+];
+
+const themes = [
+  { name: "Performance & reliability", interview: 16, support: 460 },
+  { name: "Schema discovery & business context", interview: 16, support: 80 },
+  { name: "Permissions & onboarding", interview: 13, support: 323 },
+  { name: "Cross-tool context", interview: 10, support: 206 },
+  { name: "Lifecycle & ownership", interview: 10, support: 199 },
+  { name: "Modes & access", interview: 8, support: 20 },
+];
+
+const shadowSystems = [
+  ["Tracking query links in Google Sheets", "Help users sort active queries from abandoned ones"],
+  ["Asking in Slack which table to use", "Canonical table information that meets users where they are"],
+  ["Exporting notebooks as HTML snapshots", "First-class governance of collaborative, shared artifacts"],
+  ["Emailing DL admins for data access", "Discoverable self-service access and permissions"],
+  ["Opening 10+ browser tabs", "Unified cross-tool navigation"],
+];
+
+const capabilityGroups = [
+  ["Consumers", "Discover, understand, query, and use"],
+  ["Producers", "Create, publish, maintain, and monitor"],
+  ["ML practitioners", "Develop, experiment, and operationalize"],
+  ["Owners and leads", "Assess health, usage, and outcomes"],
+  ["Platform engineers", "Operate compute, telemetry, and security"],
+  ["Data stewards", "Govern quality, definitions, and access"],
+];
+---
+
+<MainLayout title="Unified Data Workspace — Michelle Tenin">
+  <div class="case-layout shell">
+    <aside class="side-nav" aria-label="Case study sections">
+      <div class="side-track" aria-hidden="true"><span></span></div>
+      <ol data-case-nav data-sections={sectionIds}>
+        {sections.map((section) => (
+          <li><a href={`#${section.id}`}>{section.label}</a></li>
+        ))}
+      </ol>
+    </aside>
+
+    <div class="case-column">
+      <CSHero {...project} />
+
+      <article class="story">
+        <section id="context">
+          <div class="section-heading"><span>Context</span><i></i></div>
+          <h2 class="display">The project arrived as a UI question.</h2>
+          <p>
+            An engineering team asked me to look at UI for a proposed unified
+            hub across the platform’s collection of tools. The request already
+            contained a solution, but the underlying user problem had not been
+            clearly defined.
+          </p>
+          <p>
+            Rather than begin with screens, I treated the “single pane of
+            glass” as a hypothesis. Was fragmentation actually the most
+            important customer problem? Which experiences should become
+            consistent? Would combining tools solve the pain—or simply put
+            disconnected experiences behind one navigation bar?
+          </p>
+          <blockquote>
+            The first design decision was to pause the interface work long
+            enough to understand what “unified” needed to accomplish.
+          </blockquote>
+        </section>
+
+        <section id="discovery">
+          <div class="section-heading"><span>Discovery</span><i></i></div>
+          <h2 class="display">I built an evidence base from behavior and conversation.</h2>
+          <p>
+            Without deep UX research practices in the organization, the design
+            team often found creative ways to gather context. I used two
+            complementary methods: live interviews and quantitative analysis
+            of Slack support requests.
+          </p>
+          <p>
+            Interviews revealed motivations and journeys. A mining script and
+            internally hosted LLM clustered three months of support data,
+            showing which problems surfaced most often at scale.
+          </p>
+
+          <div class="research-facts" aria-label="Research scope">
+            <div><strong>~1,300</strong><span>Support requests</span></div>
+            <div><strong>10</strong><span>Interviews</span></div>
+            <div><strong>6</strong><span>Persona groups</span></div>
+          </div>
+
+          <h3>Sampling across the platform</h3>
+          <p>
+            Because the product did not yet have a persona model, I created a
+            lightweight framework to decide whom to interview and to understand
+            which kinds of users were asking which kinds of support questions
+            in Slack.
+          </p>
+          <ul class="persona-list">
+            {personas.map(([persona, description]) => (
+              <li><strong>{persona}</strong><span>{description}</span></li>
+            ))}
+          </ul>
+        </section>
+
+        <section id="analysis">
+          <div class="section-heading"><span>Analysis</span><i></i></div>
+          <h2 class="display">I validated the clustering before scaling it.</h2>
+          <p>
+            I first grouped interview pain points manually, using affinity
+            mapping to turn individual observations into a ranked theme
+            taxonomy. I then ran the transcripts through the clustering agent
+            and compared its output with my manual synthesis.
+          </p>
+          <p>
+            Once the two approaches converged on a stable set of themes, I
+            applied the assisted method to the larger support dataset and
+            reviewed the results again. The model helped me work at scale; it
+            did not replace synthesis or judgment.
+          </p>
+
+          <figure class="synthesis-artifact">
+            <div class="synthesis-card">
+              <div class="synthesis-visual">
+                <div class="artifact-frame">
+                  <img
+                    src="/assets/unified-data-workspace/raw-pain-points.png"
+                    alt="Board of raw pain-point notes collected from qualitative interviews"
+                    loading="lazy"
+                  />
+                </div>
+                <img
+                  class="method-arrow"
+                  src="/assets/unified-data-workspace/method-arrow.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <div class="artifact-frame">
+                  <img
+                    src="/assets/unified-data-workspace/clustered-pain-point-themes.png"
+                    alt="Pain points organized into a participant matrix and ranked themes"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            </div>
+            <figcaption>
+              <strong>Manual synthesis before scaling.</strong>
+              Raw observations became a human-created baseline against which I
+              validated the automated clustering.
+            </figcaption>
+          </figure>
+
+          <h3>Two methods, one problem space</h3>
+          <p>
+            Comparing both sources produced six shared themes. I ranked them by
+            frequency, using prevalence as a prioritization signal rather than
+            as a standalone measure of severity.
+          </p>
+
+          <div class="charts">
+            <figure>
+              <figcaption><strong>Interview pain-point mentions</strong><span>10 interviews</span></figcaption>
+              <div class="bar-chart">
+                {themes.map((theme) => (
+                  <div class="bar-row">
+                    <span>{theme.name}</span>
+                    <div><i style={`--bar:${theme.interview / 16}`}></i></div>
+                    <strong>{theme.interview}</strong>
+                  </div>
+                ))}
+              </div>
+            </figure>
+            <figure>
+              <figcaption><strong>Support-request prevalence</strong><span>~1,300 requests</span></figcaption>
+              <div class="bar-chart">
+                {themes.map((theme) => (
+                  <div class="bar-row">
+                    <span>{theme.name}</span>
+                    <div><i style={`--bar:${theme.support / 460}`}></i></div>
+                    <strong>{theme.support}</strong>
+                  </div>
+                ))}
+              </div>
+            </figure>
+          </div>
+        </section>
+
+        <section id="insight">
+          <div class="section-heading"><span>Key insight</span><i></i></div>
+          <h2 class="display insight-title">
+            Users weren’t failing to use the tools—they were building shadow
+            systems around them.
+          </h2>
+          <p>
+            Every pain point had a hack: Slack threads replaced search,
+            spreadsheets replaced collections, HTML exports replaced sharing,
+            and email chains replaced access requests.
+          </p>
+
+          <div class="shadow-table" role="table" aria-label="Shadow systems and missing platform capabilities">
+            <div class="shadow-head" role="row">
+              <strong role="columnheader">Users are doing this manually</strong>
+              <strong role="columnheader">Because the platform doesn’t do this</strong>
+            </div>
+            {shadowSystems.map(([manual, capability]) => (
+              <div class="shadow-row" role="row">
+                <span role="cell">{manual}</span><span role="cell">{capability}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section id="strategy">
+          <div class="section-heading"><span>Strategy</span><i></i></div>
+          <h2 class="display">The research validated the hub—and defined its limits.</h2>
+          <p>
+            Discoverability and cross-tool context switching were repeated,
+            high-impact pain points. That evidence supported the original
+            direction. It also prevented the team from treating a unified
+            interface as a universal answer to platform problems.
+          </p>
+
+          <div class="strategy-columns">
+            <div>
+              <h3>Unification could address</h3>
+              <p>Capability discovery, cross-tool context, fragmented entry points, and inconsistent discovery patterns.</p>
+            </div>
+            <div>
+              <h3>It could support</h3>
+              <p>Permissions, onboarding, schema context, and ownership—but only by bringing those workflows closer to discovery.</p>
+            </div>
+            <div>
+              <h3>It could not solve</h3>
+              <p>Query performance, platform reliability, or infrastructure-level failures.</p>
+            </div>
+          </div>
+
+          <h3>An incremental path</h3>
+          <div class="delivery-timeline" aria-label="Incremental delivery strategy">
+            <div class="timeline-track">
+              <span class="track-label">Track 1</span>
+              <div class="timeline-flow">
+                <svg class="marker-arrow" viewBox="0 0 680 34" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M8 18 C145 13 288 21 430 16 S590 17 656 14" />
+                  <path d="M640 5 L659 14 L643 27" />
+                </svg>
+                <div><small>01</small><strong>Build the foundation</strong><span>Application shell and unified access to platform capabilities</span></div>
+                <div><small>02</small><strong>Standardize discovery</strong><span>Consistent database and table schema discovery between tools</span></div>
+                <div><small>03</small><strong>Bring access into context</strong><span>Access information and requests where discovery happens</span></div>
+              </div>
+            </div>
+            <div class="timeline-track platform-track">
+              <span class="track-label">Track 2</span>
+              <div class="timeline-flow">
+                <svg class="marker-arrow" viewBox="0 0 680 34" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M8 17 C180 21 338 11 505 17 S610 15 656 17" />
+                  <path d="M640 7 L659 17 L642 28" />
+                </svg>
+                <div class="platform-step"><strong>Improve platform fundamentals</strong><span>Performance and reliability work continues in parallel</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="architecture">
+          <div class="section-heading"><span>Architecture</span><i></i></div>
+          <h2 class="display">Capabilities over tools.</h2>
+          <p>
+            The original engineering proposal was a navigation bar linking
+            isolated applications. That would reproduce the same fragmentation
+            inside a new container, so I proposed an information architecture
+            organized around what the platform enables—not a list of internal
+            tool names.
+          </p>
+          <p>
+            The same platform needed to orient people with very different
+            intentions while preserving direct paths for experienced users.
+          </p>
+
+          <div class="capability-list">
+            {capabilityGroups.map(([group, capabilities]) => (
+              <div><strong>{group}</strong><span>{capabilities}</span></div>
+            ))}
+          </div>
+        </section>
+
+        <section id="outcome">
+          <div class="section-heading"><span>Outcome</span><i></i></div>
+          <h2 class="display">From strategy to production code.</h2>
+          <p>
+            I presented the research and recommendation to engineering
+            managers across the platform product. The work aligned the team
+            around a problem definition, clarified where unification could
+            create value, and established a phased direction for delivery.
+          </p>
+          <p>
+            With no dedicated frontend engineer on the team, I paired with the
+            lead backend engineer and created a series of merge requests to
+            bootstrap and refine the application shell in one week. I authored
+            production frontend code—not only the design direction.
+          </p>
+
+          <div class="outcomes">
+            <div><h3>Shared direction</h3><p>Research reframed a premature solution around validated customer problems.</p></div>
+            <div><h3>Sequenced delivery</h3><p>The strategy separated UX opportunities from adjacent platform investments.</p></div>
+            <div><h3>Production contribution</h3><p>My merge requests established and refined the frontend application shell.</p></div>
+          </div>
+
+          <p class="project-status">
+            <strong>Current status:</strong> The unified workspace is in
+            internal alpha before a broader customer beta.
+          </p>
+        </section>
+
+        <nav class="next">
+          <a href="/">← All projects</a>
+          <a href="/aurora">Next: Aurora →</a>
+        </nav>
+      </article>
+    </div>
+  </div>
+</MainLayout>
+
+<script>
+  const nav = document.querySelector<HTMLOListElement>("[data-case-nav]");
+  if (nav) {
+    const ids: string[] = JSON.parse(nav.dataset.sections ?? "[]");
+    const links = Array.from(nav.querySelectorAll<HTMLAnchorElement>("a"));
+    const indicator = nav.parentElement?.querySelector<HTMLElement>(".side-track span");
+
+    const activate = (id: string) => {
+      links.forEach((link) => link.toggleAttribute("aria-current", link.hash === `#${id}`));
+      const active = links.find((link) => link.hash === `#${id}`);
+      if (active && indicator) {
+        const item = active.closest("li");
+        if (!item) return;
+        const listRect = nav.getBoundingClientRect();
+        const itemRect = item.getBoundingClientRect();
+        indicator.style.transform = `translateY(${itemRect.top - listRect.top + (itemRect.height - indicator.offsetHeight) / 2}px)`;
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.find((entry) => entry.isIntersecting);
+        if (visible) activate(visible.target.id);
+      },
+      { rootMargin: "-15% 0px -65% 0px" }
+    );
+
+    ids.forEach((id) => {
+      const section = document.getElementById(id);
+      if (section) observer.observe(section);
+    });
+    activate(ids[0]);
+  }
+</script>
+
+<style>
+  .case-layout{--workspace-accent:#fc911e;--visual-bg:var(--color-base-200);--visual-border:var(--line);position:relative;display:grid;grid-template-columns:180px minmax(0,48rem) 180px;justify-content:center;gap:2.5rem}
+  .case-column{grid-column:2;min-width:0}
+  .side-nav{position:sticky;top:9rem;align-self:start;display:flex;gap:.75rem;padding-top:1rem}
+  .side-track{position:relative;width:1.5px;background:color-mix(in srgb,var(--ink) 8%,transparent);border-radius:2px}
+  .side-track span{position:absolute;top:0;left:0;width:1.5px;height:12px;background:var(--ink);border-radius:2px;transition:transform .25s ease}
+  .side-nav ol{list-style:none;margin:0;padding:0}.side-nav li{margin:0}
+  .side-nav a{display:block;padding:2px 0;font-size:.75rem;line-height:1.45rem;text-decoration:none;color:color-mix(in srgb,var(--ink) 32%,transparent);transition:color .2s}
+  .side-nav a[aria-current]{color:var(--ink);font-weight:650}
+  .story section{scroll-margin-top:2rem;padding:5rem 0 0}
+  .section-heading{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem;font-size:.82rem;font-weight:650;color:color-mix(in srgb,var(--ink) 72%,transparent)}
+  .section-heading i{display:block;flex:1;height:1px;background:color-mix(in srgb,var(--ink) 8%,transparent)}
+  .story h2{font-size:1.65rem;line-height:1.35;letter-spacing:-.02em;margin:.25rem 0 1rem}
+  .story h3{font-size:.82rem;line-height:1.35;margin:2rem 0 .55rem}
+  .story section>p{font-size:.9rem;line-height:1.55rem;margin:.65rem 0;max-width:44rem}
+  blockquote{margin:1.75rem 0 0;padding:.25rem 0 .25rem 1.25rem;border-left:2px solid var(--ink);font:400 1.1rem/1.55 Georgia,serif}
+  .research-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin:2rem 0}
+  .research-facts div{padding:.25rem 0}
+  .research-facts strong{display:block;font:400 1.7rem/1 Georgia,serif}.research-facts span{display:block;margin-top:.45rem;font-size:.68rem;color:var(--muted)}
+  .persona-list{display:grid;grid-template-columns:1fr 1fr;gap:1.35rem 2rem;margin:1.5rem 0 0;padding:0;list-style:none}
+  .persona-list li{display:grid;gap:.25rem}.persona-list strong{font-size:.72rem;line-height:1.1rem}.persona-list span{font-size:.67rem;line-height:1.05rem;color:var(--muted)}
+  .synthesis-artifact{margin:2rem 0}
+  .synthesis-card{padding:1.25rem;border:1px solid var(--visual-border);border-radius:var(--radius-box);overflow:hidden;background:var(--visual-bg)}
+  .synthesis-visual{display:grid;grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr);align-items:center;gap:.85rem}
+  .artifact-frame{aspect-ratio:4/3;display:grid;place-items:center;overflow:hidden;padding:.65rem;background:#fff;border:1px solid var(--line);border-radius:8px}
+  .artifact-frame img{display:block;width:100%;height:100%;object-fit:contain}.method-arrow{display:block;width:42px;height:42px;filter:grayscale(1)}
+  .synthesis-artifact figcaption{margin-top:.5rem;font-size:.75rem;line-height:1.15rem;color:color-mix(in srgb,var(--ink) 45%,transparent)}.synthesis-artifact figcaption strong{color:inherit;font-weight:500}
+  .charts{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:1.5rem}
+  .charts figure{margin:0;padding:1.1rem;border:1px solid var(--visual-border);border-radius:var(--radius-box);background:var(--visual-bg)}
+  .charts figcaption{display:flex;justify-content:space-between;gap:.5rem;margin-bottom:1.2rem}.charts figcaption strong{font-size:.72rem}.charts figcaption span{font-size:.62rem;color:var(--muted)}
+  .bar-chart{display:grid;gap:.75rem}.bar-row{display:grid;grid-template-columns:105px minmax(0,1fr) 25px;align-items:center;gap:.5rem}
+  .bar-row>span{font-size:.58rem;line-height:.8rem;color:color-mix(in srgb,var(--ink) 66%,transparent)}.bar-row>div{height:8px;overflow:hidden;border-radius:8px;background:#f0ede8}.bar-row i{display:block;width:calc(var(--bar) * 100%);height:100%;border-radius:8px;background:var(--workspace-accent)}.bar-row strong{font-size:.58rem;text-align:right}
+  .insight-title{max-width:42rem;font-size:2rem!important;line-height:1.22!important}
+  .shadow-table{margin-top:2rem;overflow:hidden;border:1px solid var(--visual-border);border-radius:var(--radius-box);background:var(--visual-bg)}
+  .shadow-head,.shadow-row{display:grid;grid-template-columns:1fr 1fr}
+  .shadow-head{background:color-mix(in srgb,var(--visual-bg) 70%,white)}.shadow-head strong{font-size:.72rem;line-height:1rem}
+  .shadow-head>*{padding:.8rem}.shadow-head>*+*,.shadow-row>*+*{border-left:1px solid var(--visual-border)}
+  .shadow-row{border-top:1px solid var(--visual-border)}
+  .shadow-row span{padding:.75rem;font-size:.74rem;line-height:1.15rem}
+  .strategy-columns{display:grid;grid-template-columns:repeat(3,1fr);gap:1.75rem;margin-top:2rem}
+  .strategy-columns h3{margin:0 0 .5rem}.strategy-columns p{margin:0;font-size:.69rem;line-height:1.2rem;color:var(--muted)}
+  .delivery-timeline{margin:1.25rem 0 0;padding:1.75rem;border:1px solid var(--visual-border);border-radius:var(--radius-box);background:var(--visual-bg)}
+  .timeline-track{display:grid;grid-template-columns:64px 1fr;gap:1rem;align-items:start}.timeline-track+.timeline-track{margin-top:2.25rem}
+  .track-label{padding-top:.25rem;font:600 .7rem/1rem var(--font-sans);text-transform:uppercase;letter-spacing:.05em}
+  .timeline-flow{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;padding-top:2.4rem}
+  .marker-arrow{position:absolute;inset:0 0 auto;width:100%;height:34px;overflow:visible;fill:none;stroke:var(--ink);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+  .timeline-flow div{display:grid;align-content:start;gap:.28rem}.timeline-flow small{font-size:.58rem;color:var(--muted)}
+  .timeline-flow strong{position:relative;z-index:0;width:max-content;max-width:100%;font-size:.73rem;line-height:1rem}
+  .timeline-flow strong:after{content:"";position:absolute;z-index:-1;left:-.2rem;right:-.25rem;bottom:-.08rem;height:.52rem;background:color-mix(in srgb,var(--workspace-accent) 48%,transparent);border-radius:45% 18% 38% 22%;transform:rotate(-1deg)}
+  .timeline-flow span{font-size:.64rem;line-height:1.05rem;color:var(--muted)}
+  .platform-track .timeline-flow{grid-template-columns:1fr}.platform-step{max-width:20rem}
+  .capability-list{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem 2rem;margin-top:1.75rem}
+  .capability-list>div{display:grid;gap:.25rem}.capability-list strong,.capability-list span{font-size:.72rem}.capability-list span{color:var(--muted)}
+  .outcomes{display:grid;grid-template-columns:repeat(3,1fr);gap:1.75rem;margin-top:2rem}
+  .outcomes h3{margin:0 0 .5rem}.outcomes p{margin:0;font-size:.69rem;line-height:1.2rem;color:var(--muted)}
+  .project-status{display:block;width:100%;box-sizing:border-box;margin-top:2.5rem!important;font-size:.75rem!important;line-height:1.25rem!important;color:var(--muted)}.project-status strong{color:var(--ink)}
+  .next{display:flex;justify-content:space-between;gap:1rem;border-top:1px solid var(--line);margin-top:4rem;padding:1.5rem 0 2rem}.next a{font-size:.78rem;color:var(--muted);text-decoration:none}
+  @media(max-width:1100px){.case-layout{display:block;width:min(48rem,calc(100% - 48px))}.side-nav{display:none}}
+  @media(max-width:700px){
+    .case-layout{width:min(100% - 28px,48rem)}.story section{padding-top:3.75rem}
+    .charts,.strategy-columns,.outcomes{grid-template-columns:1fr}.persona-list{grid-template-columns:1fr}
+    .research-facts{gap:.75rem}.research-facts strong{font-size:1.4rem}
+    .synthesis-card{padding:.85rem}.synthesis-visual{grid-template-columns:minmax(0,1fr) 26px minmax(0,1fr);gap:.4rem}.artifact-frame{padding:.3rem}.method-arrow{width:26px;height:26px}
+    .bar-row{grid-template-columns:100px minmax(0,1fr) 25px}.strategy-columns,.outcomes{gap:1.35rem}
+    .shadow-table{padding:0 1rem}.shadow-head{display:none}.shadow-head+.shadow-row{border-top:0}.shadow-row{grid-template-columns:1fr;gap:.35rem;padding:1rem 0;border-top:1px solid var(--visual-border)}.shadow-row>*+*{border-left:0}.shadow-row span{padding:0}.shadow-row span:before{display:block;margin-bottom:.15rem;font-size:.56rem;font-weight:650;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}.shadow-row span:first-child:before{content:"Manual workaround"}.shadow-row span:last-child{color:var(--muted)}.shadow-row span:last-child:before{content:"Platform opportunity"}
+    .delivery-timeline{padding:1.25rem}.timeline-track{grid-template-columns:1fr}.timeline-track+.timeline-track{margin-top:2.75rem}.timeline-flow{grid-template-columns:1fr;gap:1.5rem;padding:0 0 0 2.25rem}.marker-arrow{display:none}.timeline-flow:before{content:"";position:absolute;left:.5rem;top:.2rem;bottom:.8rem;width:4px;border-radius:50%;background:var(--ink);transform:rotate(-.8deg)}.timeline-flow:after{content:"";position:absolute;left:.18rem;bottom:.65rem;width:.78rem;height:.78rem;border-right:4px solid var(--ink);border-bottom:4px solid var(--ink);transform:rotate(45deg)}.timeline-flow div{min-height:4.25rem}.platform-track .timeline-flow{padding-left:2.25rem}.capability-list{grid-template-columns:1fr;gap:1rem}
+  }
+</style>

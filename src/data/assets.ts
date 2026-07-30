@@ -9,7 +9,7 @@ export const assets = {
   },
   aurora: {
     cover: "/assets/framer/aurora/usYUBzxOEtlY9BE7c5WN7mWRY1o.webp",
-    careCliff: "/assets/framer/aurora/M0QNjMPv8v9cg7FHgNt3hCQGA0U.webp",
+    careCliff: "/assets/aurora/care-cliff.svg",
     process: [
       "/assets/framer/aurora/MwB9mNhklViykMN07lXbByZU.avif",
       "/assets/framer/aurora/cDFmKSETZSQtWonJqWp7HwosWc.avif",
