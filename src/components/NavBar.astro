@@ -5,10 +5,11 @@ import HamburgerClosed from "../assets/hamburger-closed.png";
 import HamburgerOpen from "../assets/hamburger-open.png";
 const path = Astro.url.pathname;
 const projects = [
-  { href: "/aurora", title: "Aurora", description: "Cancer survivorship support", mark: "aurora" },
-  { href: "/tecan", title: "Tecan", description: "Digital visual factory", mark: "tecan" },
-  { href: "/teststudio", title: "Behavioral Testing", description: "Autonomous vehicle testing", mark: "testing" },
-  { href: "/mlloop", title: "MLOps", description: "Machine learning operations", mark: "mlops" },
+  { href: "/unified-data-workspace", title: "Data Platform Hub", description: "SW Infra @ Nvidia", mark: "dataworkspace" },
+  { href: "/aurora", title: "Cancer Survivorship Support", description: "Design for America @ UW", mark: "aurora" },
+  { href: "/tecan", title: "Digital Visual Factory", description: "Medtech manufacturing @ Tecan", mark: "tecan" },
+  { href: "/teststudio", title: "Behavioral Testing", description: "Autonomous Vehicles @ Nvidia", mark: "testing" },
+  { href: "/mlloop", title: "Corner Case Management", description: "MLOps @ Nvidia", mark: "mlops" },
 ];
 const workIsActive = projects.some(({ href }) => path === href);
 ---
@@ -185,6 +186,8 @@ const workIsActive = projects.some(({ href }) => path === href);
   .project-mark.testing i { border-radius: 50%; border-style: dashed; }
   .project-mark.mlops { color: #36865f; background: #dff3e7; }
   .project-mark.mlops i { border-radius: 2px; transform: rotate(45deg); }
+  .project-mark.dataworkspace { color: #fc911e; background: #fff0df; }
+  .project-mark.dataworkspace i { border-radius: 50%; box-shadow: 8px 0 0 -3px currentColor, -8px 0 0 -3px currentColor; }
   .contact-mark{font-weight:650;color:color-mix(in srgb,var(--color-base-content) 58%,transparent)}
   .contact-mark.email{background:#dff3e7;color:#36865f;font-size:1rem}
   .contact-mark.linkedin{background:#e1f0ff;color:#2870bd;font-family:Arial,sans-serif;font-size:.9rem}

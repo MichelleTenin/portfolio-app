@@ -3,7 +3,10 @@ import MainLayout from "../layouts/MainLayout.astro";
 import CSHero from "./CSHero.astro";
 
 const { project } = Astro.props;
-const isStructuredLayout = project.layout === "aurora" || project.layout === "tecan";
+const isStructuredLayout =
+  project.layout === "aurora" ||
+  project.layout === "tecan" ||
+  project.layout === "dataworkspace";
 const sections = isStructuredLayout
   ? [
       { id: "overview", label: "Overview" },
@@ -119,9 +122,11 @@ const sectionIds = JSON.stringify(sections.map((section) => section.id));
                 {project.solutionFeatures.map((feature) => <li>{feature}</li>)}
               </ul>
             )}
-            <figure class="solution-media">
-              <img src={project.solutionMedia} alt={project.solutionMediaAlt ?? `${project.title} solution`} loading="lazy" />
-            </figure>
+            {project.solutionMedia && (
+              <figure class="solution-media">
+                <img src={project.solutionMedia} alt={project.solutionMediaAlt ?? `${project.title} solution`} loading="lazy" />
+              </figure>
+            )}
           </section>
         ) : project.gallery?.length > 0 && (
           <section id="artifacts">

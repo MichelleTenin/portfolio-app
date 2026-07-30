@@ -6,10 +6,24 @@ const { kind = "aurora", label = "" } = Astro.props;
   {kind === "mlloop" && <><div class="loop l1"></div><div class="loop l2"></div><div class="loop l3"></div><span class="spark">✦</span></>}
   {kind === "tecan" && <div class="lab"><div class="lab-top"></div><div class="cells">{Array.from({length:12}).map(() => <i></i>)}</div><div class="panel"></div></div>}
   {kind === "teststudio" && <div class="phone"><div class="phone-head"></div><div class="phone-card"></div><div class="phone-row"></div><div class="phone-row short"></div></div>}
+  {kind === "dataworkspace" && (
+    <div class="workspace">
+      <div class="workspace-nav"><i></i><i></i><i></i><i></i></div>
+      <div class="workspace-main">
+        <div class="workspace-toolbar"><strong></strong><i></i></div>
+        <div class="workspace-grid">
+          <div class="workspace-card large"><span></span><i></i><i></i><i></i></div>
+          <div class="workspace-card"><span></span><i></i><i></i></div>
+          <div class="workspace-card"><span></span><i></i><i></i></div>
+        </div>
+      </div>
+      <div class="workspace-detail"><span></span><i></i><i></i><i></i></div>
+    </div>
+  )}
 </div>
 <style>
   .visual { position: relative; min-height: 430px; border-radius: 28px; overflow: hidden; display: grid; place-items: center; }
-  .aurora { background: #f3b74d; } .mlloop { background: #a7c8f0; } .tecan { background: #a9d4c4; } .teststudio { background: #f18b72; }
+  .aurora { background: #f3b74d; } .mlloop { background: #a7c8f0; } .tecan { background: #a9d4c4; } .teststudio { background: #f18b72; } .dataworkspace { background:#fff0df; }
   .dash, .lab { width: 78%; height: 68%; background: #fdfbf5; border-radius: 12px; box-shadow: 0 24px 50px #352b1c35; position: relative; padding: 16px; }
   .dash-nav { width: 22%; height: 100%; background: #282727; border-radius: 7px; }
   .metric { position: absolute; left: 27%; top: 16px; width: 29%; height: 30%; background: #f3eee2; border-radius: 7px; }
@@ -21,5 +35,10 @@ const { kind = "aurora", label = "" } = Astro.props;
   .lab { height: 62%; }.lab-top{height:18%; width:45%; background:#222; border-radius:5px}.cells{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:52%;margin-top:22px}.cells i{aspect-ratio:1;border-radius:50%;background:#c7e4d9;border:4px solid #77ad99}.panel{position:absolute;right:16px;top:16px;bottom:16px;width:35%;background:#f1eee5;border-radius:7px}
   .phone { width: 46%; height: 78%; background:#faf8f2; border:8px solid #24211f; border-radius:30px; box-shadow:0 25px 45px #61261c40; padding:14% 9%; }
   .phone-head{height:8%;width:55%;background:#222;border-radius:6px}.phone-card{height:35%;margin-top:15%;background:#f4c34d;border-radius:14px}.phone-row{height:5%;margin-top:13%;background:#c9c4ba;border-radius:5px}.phone-row.short{width:65%}
+  .workspace{width:86%;height:74%;display:grid;grid-template-columns:14% minmax(0,1fr) 22%;gap:1px;overflow:hidden;background:#f3ddc8;border:1px solid #edc49b;border-radius:8px;box-shadow:0 24px 50px #8a4a0e20}
+  .workspace-nav,.workspace-main,.workspace-detail{background:#fffaf5}.workspace-nav{padding:18% 12%;display:flex;flex-direction:column;gap:8%}.workspace-nav i{height:3%;min-height:6px;border-radius:6px;background:#f4dfca}.workspace-nav i:first-child{width:60%;margin-bottom:18%;background:#fc911e}
+  .workspace-main{padding:6%}.workspace-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:7%}.workspace-toolbar strong{width:38%;height:12px;border-radius:4px;background:#252534}.workspace-toolbar>i{width:20%;height:22px;border-radius:5px;background:#fff0df;border:1px solid #ffd0a0}
+  .workspace-grid{display:grid;grid-template-columns:1fr 1fr;gap:5%}.workspace-card{min-height:64px;padding:7%;background:#fff;border:1px solid #eee1d5;border-radius:5px}.workspace-card.large{grid-column:1/-1;min-height:82px}.workspace-card span,.workspace-detail span{display:block;width:42%;height:7px;margin-bottom:12%;border-radius:5px;background:#fc911e}.workspace-card i,.workspace-detail i{display:block;width:100%;height:5px;margin-top:6%;border-radius:5px;background:#f1e4d8}.workspace-card i:last-child{width:64%}
+  .workspace-detail{padding:12% 10%}.workspace-detail span{width:58%;background:#252534}.workspace-detail i:nth-of-type(2){width:74%}.workspace-detail i:nth-of-type(3){width:88%}
   @media(max-width:700px){.visual{min-height:320px}}
 </style>

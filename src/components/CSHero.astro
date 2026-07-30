@@ -1,6 +1,6 @@
 ---
 import ProjectVisual from "./ProjectVisual.astro";
-const { number, title, headline, breadcrumb, kicker, role, duration, kind, cover, excerpt, overview, objective } = Astro.props;
+const { number, title, headline, breadcrumb, kicker, role, duration, kind, cover, excerpt, overview, objective, showVisual = true } = Astro.props;
 ---
 <section id="overview" class="case-hero">
   <a class="back" href="/">← All work</a>
@@ -17,9 +17,11 @@ const { number, title, headline, breadcrumb, kicker, role, duration, kind, cover
     <div><span>Role</span><strong>{role}</strong></div>
     <div><span>Timeline</span><strong>{duration}</strong></div>
   </div>
-  {cover
-    ? <img class="case-cover" src={cover} alt={`${title} project overview`} />
-    : <ProjectVisual kind={kind} label={`${title} product preview`} />}
+  {showVisual && (
+    cover
+      ? <img class="case-cover" src={cover} alt={`${title} project overview`} />
+      : <ProjectVisual kind={kind} label={`${title} product preview`} />
+  )}
 </section>
 <style>
   .case-hero{scroll-margin-top:2rem;padding:2rem 0 0}.back{display:inline-block;margin-bottom:4rem;font-size:.78rem;color:var(--muted);text-underline-offset:4px}.breadcrumb{font-size:.65rem;text-transform:uppercase;letter-spacing:.04em;color:color-mix(in srgb,var(--ink) 32%,transparent);margin:0 0 .65rem}.case-hero h1{font-size:2.15rem;line-height:1.15;letter-spacing:-.025em;margin:0 0 .8rem}.intro{font-size:.9rem;line-height:1.55rem;margin:0 0 1.25rem;max-width:42rem}.overview-details{display:grid;grid-template-columns:1.4fr 1fr;gap:1.5rem;margin:1.75rem 0}.overview-details>div{padding-top:1rem;border-top:1px solid color-mix(in srgb,var(--ink) 8%,transparent)}.overview-details span{font-size:.62rem;text-transform:uppercase;letter-spacing:.04em;color:color-mix(in srgb,var(--ink) 32%,transparent)}.overview-details p{margin:.45rem 0 0;font-size:.8rem;line-height:1.4rem}.case-cover{width:100%;height:auto;max-height:620px;object-fit:cover;border-radius:var(--radius-box);display:block;margin-top:1.5rem}.facts{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid color-mix(in srgb,var(--ink) 8%,transparent);padding:1rem 0 0;gap:2rem;margin-top:1.5rem}.facts div{display:flex;flex-direction:column;gap:.2rem}.facts span{font-size:.62rem;text-transform:uppercase;letter-spacing:.04em;color:color-mix(in srgb,var(--ink) 32%,transparent)}.facts strong{font-size:.78rem;font-weight:500;line-height:1.3rem}
