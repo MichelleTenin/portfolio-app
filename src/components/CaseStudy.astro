@@ -7,7 +7,7 @@ const isStructuredLayout =
   project.layout === "aurora" ||
   project.layout === "tecan" ||
   project.layout === "dataworkspace";
-const sections = isStructuredLayout
+const defaultSections = isStructuredLayout
   ? [
       { id: "overview", label: "Overview" },
       { id: "challenge", label: "The challenge" },
@@ -23,10 +23,14 @@ const sections = isStructuredLayout
       { id: "outcome", label: "Outcome" },
       { id: "reflection", label: "Reflection" },
     ];
+const sections = project.sections ?? defaultSections;
 const sectionIds = JSON.stringify(sections.map((section) => section.id));
+const sectionLabel = (id, fallback) =>
+  sections.find((section) => section.id === id)?.label ?? fallback;
+const processId = isStructuredLayout ? "process" : "approach";
 ---
 <MainLayout title={`${project.title} — Michelle Tenin`}>
-  <div class="case-layout shell">
+  <div class={`case-layout shell ${project.kind}`}>
     <aside class="side-nav" aria-label="Case study sections">
       <div class="side-track" aria-hidden="true"><span></span></div>
       <ol data-case-nav data-sections={sectionIds}>
@@ -41,7 +45,7 @@ const sectionIds = JSON.stringify(sections.map((section) => section.id));
 
       <article class="story">
         <section id="challenge">
-          <div class="section-heading"><span>The challenge</span><i></i></div>
+          <div class="section-heading"><span>{sectionLabel("challenge", "The challenge")}</span><i></i></div>
           <h2 class="display">{project.challengeTitle}</h2>
           <p>{project.challenge}</p>
           {project.challengeItems?.length > 0 && (
@@ -50,7 +54,7 @@ const sectionIds = JSON.stringify(sections.map((section) => section.id));
             </ul>
           )}
           {project.quote && <blockquote>“{project.quote}”</blockquote>}
-          {project.designPrompt && <blockquote class="design-prompt"><strong>Design prompt:</strong> {project.designPrompt}</blockquote>}
+          {project.callout && <blockquote class="callout">{project.callout}</blockquote>}
           {project.challengeMedia && (
             <figure class="challenge-media">
               <img src={project.challengeMedia} alt="The care cliff between cancer treatment and survivorship" loading="lazy" />
@@ -58,10 +62,20 @@ const sectionIds = JSON.stringify(sections.map((section) => section.id));
           )}
         </section>
 
-        <section id={isStructuredLayout ? "process" : "approach"}>
-          <div class="section-heading"><span>{isStructuredLayout ? "The process" : "The approach"}</span><i></i></div>
+        <section id={processId}>
+          <div class="section-heading"><span>{sectionLabel(processId, isStructuredLayout ? "The process" : "The approach")}</span><i></i></div>
           <h2 class="display">{project.approachTitle}</h2>
           <p>{project.approach}</p>
+          {project.processQuotes?.length > 0 && (
+            <div class="interview-quotes">
+              {project.processQuotes.map((item) => (
+                <blockquote class="interview-quote">
+                  <p>“{item.quote}”</p>
+                  {item.attribution && <cite>{item.attribution}</cite>}
+                </blockquote>
+              ))}
+            </div>
+          )}
           <div class="principles">
             {project.principles?.map((principle) => (
               <div class="card bg-base-200"><span>✦</span><strong>{principle}</strong></div>
@@ -70,11 +84,11 @@ const sectionIds = JSON.stringify(sections.map((section) => section.id));
           {project.personas?.length > 0 && (
             <div class="persona-grid">
               {project.personas.map((persona) => (
-                <article class="persona-card card bg-base-100">
+                <article class="persona-card card">
                   <header>
                     <img src={persona.image} alt="" loading="lazy" />
                     <div>
-                      <h3>{persona.name} <span>({persona.age})</span></h3>
+                      <h3>{persona.name}</h3>
                       <p>{persona.role}</p>
                     </div>
                   </header>
@@ -114,7 +128,7 @@ const sectionIds = JSON.stringify(sections.map((section) => section.id));
 
         {isStructuredLayout ? (
           <section id="solution">
-            <div class="section-heading"><span>The solution</span><i></i></div>
+            <div class="section-heading"><span>{sectionLabel("solution", "The solution")}</span><i></i></div>
             <h2 class="display">{project.solutionTitle}</h2>
             <p>{project.solution}</p>
             {project.solutionFeatures?.length > 0 && (
@@ -151,8 +165,8 @@ const sectionIds = JSON.stringify(sections.map((section) => section.id));
         )}
 
         <section id="reflection">
-          <div class="section-heading"><span>{isStructuredLayout ? "The reflection" : "Reflection"}</span><i></i></div>
-          <h2 class="display">{project.reflectionTitle ?? "Clarity is a product feature."}</h2>
+          <div class="section-heading"><span>{sectionLabel("reflection", isStructuredLayout ? "The reflection" : "Reflection")}</span><i></i></div>
+          <h2 class="display">{project.reflectionTitle ?? "What the work changed."}</h2>
           {project.reflection?.length > 0
             ? project.reflection.map((paragraph) => <p>{paragraph}</p>)
             : <p>{project.learning}</p>}
@@ -217,40 +231,44 @@ const sectionIds = JSON.stringify(sections.map((section) => section.id));
 </script>
 
 <style>
-  .case-layout{position:relative;display:grid;grid-template-columns:180px minmax(0,48rem) 180px;justify-content:center;gap:2.5rem}
+  .case-layout{--visual-bg:var(--color-base-200);--visual-border:var(--line);position:relative;display:grid;grid-template-columns:180px minmax(0,48rem) 180px;justify-content:center;gap:2.5rem}
   .case-column{grid-column:2;min-width:0}
   .side-nav{position:sticky;top:9rem;align-self:start;display:flex;gap:.75rem;padding-top:1rem}
   .side-track{position:relative;width:1.5px;background:color-mix(in srgb,var(--ink) 8%,transparent);border-radius:2px}
   .side-track span{position:absolute;top:0;left:0;width:1.5px;height:12px;background:var(--ink);border-radius:2px;transition:transform .25s ease}
   .side-nav ol{list-style:none;margin:0;padding:0}.side-nav li{margin:0}.side-nav a{display:block;padding:2px 0;font-size:.75rem;line-height:1.45rem;text-decoration:none;color:color-mix(in srgb,var(--ink) 32%,transparent);transition:color .2s}
   .side-nav a[aria-current]{color:var(--ink);font-weight:650}
-  .story section{scroll-margin-top:2rem;padding:4rem 0 0}
+  .story section{scroll-margin-top:2rem;padding:5rem 0 0}
   .section-heading{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem;font-size:.82rem;font-weight:650;color:color-mix(in srgb,var(--ink) 78%,transparent)}
   .section-heading i{display:block;flex:1;height:1px;background:color-mix(in srgb,var(--ink) 8%,transparent)}
-  .story h2{font-size:1.55rem;line-height:1.4;letter-spacing:-.02em;margin:.25rem 0 1rem}
+  .story h2{font-size:1.65rem;line-height:1.35;letter-spacing:-.02em;margin:.25rem 0 1rem}
   .story section>p{font-size:.9rem;line-height:1.55rem;margin:.65rem 0;max-width:44rem}
-  blockquote{margin:1.75rem 0 0;padding:1rem 1.25rem;border-left:2px solid var(--primary,var(--yellow));background:var(--color-base-200);font:400 1.1rem/1.55 Georgia,serif}
-  .challenge-list{margin:1.25rem 0 0;padding-left:1.25rem;display:grid;gap:.45rem;font-size:.86rem;line-height:1.4}.design-prompt{font-size:1rem}.design-prompt strong{font:650 .7rem/1.4 var(--font-sans,Arial,sans-serif);text-transform:uppercase;letter-spacing:.04em}
+  blockquote{margin:1.75rem 0 0;padding:.25rem 0 .25rem 1.25rem;border-left:2px solid var(--ink);background:transparent;font:400 1.1rem/1.55 var(--font-display)}
+  .callout{max-width:42rem}.interview-quotes{display:grid;gap:1rem}.interview-quote p{margin:0}.interview-quote cite{display:block;margin-top:.65rem;font:500 .65rem/1 var(--font-sans,Arial,sans-serif);color:var(--muted)}
+  .challenge-list{margin:1.25rem 0 0;padding-left:1.25rem;display:grid;gap:.45rem;font-size:.86rem;line-height:1.4;list-style:disc}
+  .challenge-list li::marker,.solution-features li::marker,.persona-detail li::marker{color:var(--ink)}
   .principles{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-top:1.5rem}
-  .principles>div{min-height:110px;padding:1rem;display:flex;flex-direction:column;justify-content:space-between;border:1px solid color-mix(in srgb,var(--ink) 6%,transparent);box-shadow:none}
+  .principles>div{min-height:110px;padding:1rem;display:flex;flex-direction:column;justify-content:space-between;border:1px solid var(--visual-border);background:var(--visual-bg);box-shadow:none}
   .principles span{color:var(--coral)}.principles strong{font-size:.8rem}
   .principles:empty{display:none}
   .persona-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin-top:1.75rem}
-  .persona-card{padding:1rem;border:1px solid color-mix(in srgb,var(--ink) 8%,transparent);box-shadow:none}
-  .persona-card header{display:flex;align-items:center;gap:.75rem;padding-bottom:.9rem;border-bottom:1px solid color-mix(in srgb,var(--ink) 8%,transparent)}
-  .persona-card header img{width:44px;height:44px;flex:0 0 auto;object-fit:cover;border-radius:50%;border:1px solid color-mix(in srgb,var(--ink) 8%,transparent)}
-  .persona-card h3{margin:0;font-size:.82rem}.persona-card h3 span{font-weight:450;color:var(--muted)}.persona-card header p{margin:.15rem 0 0;font-size:.66rem;color:var(--muted)}
+  .persona-card{padding:1rem;border:1px solid var(--visual-border);border-radius:var(--radius-box);background:var(--visual-bg);box-shadow:none}
+  .persona-card header{display:flex;align-items:center;gap:.75rem;padding-bottom:.9rem;border-bottom:1px solid var(--visual-border)}
+  .persona-card header img{width:44px;height:44px;flex:0 0 auto;object-fit:cover;border-radius:50%;border:1px solid var(--visual-border)}
+  .persona-card h3{margin:0;font-size:.82rem}.persona-card header p{margin:.15rem 0 0;font-size:.66rem;color:var(--muted)}
   .persona-card>p{margin:.9rem 0;font-size:.72rem;line-height:1.25rem;color:color-mix(in srgb,var(--ink) 72%,transparent)}
-  .persona-detail{margin-top:.8rem}.persona-detail strong{font-size:.62rem;text-transform:uppercase;letter-spacing:.04em}.persona-detail p,.persona-detail ul{margin:.3rem 0 0;font-size:.68rem;line-height:1.15rem}.persona-detail ul{padding-left:1rem;display:grid;gap:.25rem}
+  .persona-detail{margin-top:.8rem}.persona-detail strong{font-size:.62rem;text-transform:uppercase;letter-spacing:.04em}.persona-detail p,.persona-detail ul{margin:.3rem 0 0;font-size:.68rem;line-height:1.15rem}.persona-detail ul{padding-left:1rem;display:grid;gap:.25rem;list-style:disc}
   .process-notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid color-mix(in srgb,var(--ink) 8%,transparent)}.process-notes h3{margin:0 0 .45rem;font-size:.76rem;text-transform:capitalize}.process-notes p{margin:0;font-size:.72rem;line-height:1.3rem;color:color-mix(in srgb,var(--ink) 72%,transparent)}
-  .challenge-media,.solution-media{margin:2rem 0 0;padding:1.5rem;display:flex;justify-content:center;background:var(--color-base-200);border:1px solid color-mix(in srgb,var(--ink) 6%,transparent);border-radius:var(--radius-box);overflow:hidden}
+  .challenge-media,.solution-media{margin:2rem 0 0;padding:1.5rem;display:flex;justify-content:center;background:var(--visual-bg);border:1px solid var(--visual-border);border-radius:var(--radius-box);overflow:hidden}
   .challenge-media img{display:block;width:min(100%,560px);height:auto;max-height:420px;object-fit:contain}
-  .solution-media{background:#fff}.solution-media img{display:block;width:min(100%,620px);height:auto;object-fit:contain}
-  .solution-features{margin:1.25rem 0 0;padding-left:1.25rem;display:grid;gap:.55rem;font-size:.86rem;line-height:1.45}
+  .solution-media img{display:block;width:min(100%,620px);height:auto;object-fit:contain}
+  .case-layout.aurora .challenge-media img{width:min(82%,460px);max-height:340px}
+  .case-layout.aurora .solution-media img{width:min(88%,540px)}
+  .solution-features{margin:1.25rem 0 0;padding-left:1.25rem;display:grid;gap:.55rem;font-size:.86rem;line-height:1.45;list-style:disc}
   .media-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin-top:1.5rem}
-  .media-grid figure{margin:0;overflow:hidden;background:var(--color-base-200);border-radius:var(--radius-box)}
+  .media-grid figure{margin:0;overflow:hidden;background:var(--visual-bg);border:1px solid var(--visual-border);border-radius:var(--radius-box)}
   .media-grid img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover}
-  .gallery{display:flex;flex-direction:column;gap:.75rem}.gallery figure{margin:0;background:var(--color-base-200);border-radius:var(--radius-box);overflow:hidden}.gallery img{display:block;width:100%;height:auto;max-height:680px;object-fit:contain}
+  .gallery{display:flex;flex-direction:column;gap:.75rem}.gallery figure{margin:0;background:var(--visual-bg);border:1px solid var(--visual-border);border-radius:var(--radius-box);overflow:hidden}.gallery img{display:block;width:100%;height:auto;max-height:680px;object-fit:contain}
   .outcome{padding:2rem;border-radius:var(--radius-box);box-shadow:none}.outcome p{font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.12;margin:0;max-width:650px}
   .next{display:flex;justify-content:space-between;gap:1rem;border-top:1px solid color-mix(in srgb,var(--ink) 8%,transparent);margin-top:4rem;padding:1.5rem 0 2rem}.next a{font-size:.78rem;color:var(--muted);text-decoration:none}
   @media(max-width:1100px){
@@ -258,6 +276,6 @@ const sectionIds = JSON.stringify(sections.map((section) => section.id));
     .side-nav{display:none}
   }
   @media(max-width:640px){
-    .case-layout{width:min(100% - 28px,48rem)}.principles,.media-grid,.persona-grid,.process-notes{grid-template-columns:1fr}.story section{padding-top:3rem}.outcome{padding:1.5rem}.challenge-media,.solution-media{padding:1rem}
+    .case-layout{width:min(100% - 28px,48rem)}.principles,.media-grid,.persona-grid,.process-notes{grid-template-columns:1fr}.story section{padding-top:3.75rem}.outcome{padding:1.5rem}.challenge-media,.solution-media{padding:1rem}
   }
 </style>

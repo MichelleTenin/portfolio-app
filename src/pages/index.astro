@@ -12,8 +12,8 @@ const projects = [
 ---
 <MainLayout>
   <section class="shell landing-hero">
-    <h1 class="display">I design for clarity<br />in complex worlds.</h1>
-    <p>I’m Michelle, a product designer working on complex, engineering-led systems for AI and machine learning. I turn unstructured workflows into cohesive experiences.</p>
+    <h1 class="display">Clarity starts in the weeds.</h1>
+    <p>I’m Michelle, a product designer who likes to work alongside engineers and users to understand complex systems from the inside out—jamming, refining, and simplifying until the result feels clear and considered.</p>
   </section>
 
   <section id="work" class="shell work">
@@ -28,40 +28,31 @@ const projects = [
               project={p.title}
               kind={p.kind}
             />
-            <p class="hover-detail" aria-hidden="true">{p.copy}</p>
           </div>
           <div class="project-meta">
-            <div><h2>{p.title}</h2><p>{p.descriptor}</p></div>
-            <span class="view">View case study ↗</span>
+            <h2>{p.title}<span class="title-arrow" aria-hidden="true">↗</span></h2>
+            <p>{p.descriptor}</p>
           </div>
           <p class="mobile-summary">{p.copy}</p>
         </a>
       ))}
     </div>
   </section>
-
-  <section class="shell close">
-    <div class="section-label"><span>A little about me</span><i></i></div>
-    <div class="close-content">
-      <p class="display">I use research, systems thinking, and hands-on prototyping to bring clarity to the messy middle of product development.</p>
-      <a href="/about">More about me ↗</a>
-    </div>
-  </section>
 </MainLayout>
 <style>
   .landing-hero{display:block;padding:4.5rem 0 6rem;max-width:1120px}
-  .landing-hero h1{font-size:clamp(2.4rem,4vw,3.75rem);line-height:1.1;max-width:720px;margin:0 0 1.25rem}
+  .landing-hero h1{font-size:clamp(2.4rem,4vw,3.75rem);line-height:1.1;max-width:none;margin:0 0 1.25rem;white-space:nowrap}
   .landing-hero>p{font-size:1rem;line-height:1.55rem;margin:0;max-width:660px}
   .section-label{display:flex;align-items:center;gap:1rem;font-size:.76rem;font-weight:650;margin-bottom:2rem}.section-label i{height:1px;background:var(--line);flex:1}
-  .project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4rem 1.25rem}
+  .project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2.5rem 1.25rem}
   .project{position:relative;text-decoration:none}
   .thumbnail-wrap{position:relative;overflow:hidden;border-radius:10px}
-  .hover-detail{position:absolute;left:.8rem;right:.8rem;bottom:.8rem;margin:0;padding:.8rem .9rem;border:1px solid var(--line);border-radius:8px;background:color-mix(in srgb,var(--color-base-100) 92%,transparent);box-shadow:0 8px 24px color-mix(in srgb,var(--ink) 9%,transparent);font-size:.72rem;line-height:1.2rem;color:var(--ink);opacity:0;transform:translateY(8px);transition:opacity .2s ease,transform .2s ease;pointer-events:none}
-  .project:hover .hover-detail,.project:focus-visible .hover-detail{opacity:1;transform:translateY(0)}
-  .project-meta{display:flex;justify-content:space-between;gap:1rem;align-items:start;padding-top:.9rem}
-  .project-meta h2{margin:0 0 .25rem;font:650 .82rem/1.2 var(--font-sans,Arial,sans-serif);letter-spacing:0}
-  .project-meta p{margin:0;color:var(--muted);font-size:.72rem;line-height:1.05rem}
-  .view{flex:none;padding-top:.05rem;font-size:.68rem;font-weight:650;white-space:nowrap;text-decoration:underline;text-underline-offset:4px}
+  .project-meta{display:flex;justify-content:space-between;gap:.75rem;align-items:center;padding-top:.75rem}
+  .project-meta h2{margin:0;font:650 .82rem/1.2 var(--font-sans,Arial,sans-serif);letter-spacing:0}
+  .project-meta p{margin:0;color:var(--muted);font-size:.72rem;line-height:1.05rem;text-align:right;opacity:0;transform:translateY(3px);transition:opacity .18s ease,transform .18s ease}
+  .project:hover .project-meta p,.project:focus-visible .project-meta p{opacity:1;transform:translateY(0)}
+  .title-arrow{display:inline-block;margin-left:.25rem;font-size:.82em;font-weight:500;transition:transform .18s ease}
+  .project:hover .title-arrow,.project:focus-visible .title-arrow{transform:translate(2px,-2px)}
   .mobile-summary{display:none;margin:.7rem 0 0;font-size:.76rem;line-height:1.3rem;color:var(--muted)}
   .project:hover :global(.thumbnail){
     transform:translateY(-3px);
@@ -70,8 +61,7 @@ const projects = [
     background-position:center;
     background-size:cover;
   }
-  .close{margin-top:5rem;padding:0 0 1rem}.close .section-label{margin-bottom:1.25rem}.close-content{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem}.close .display{max-width:650px;margin:0;font-size:clamp(1.35rem,2vw,1.7rem);line-height:1.2}.close a{flex:none;font-size:.78rem;font-weight:650;text-underline-offset:4px}
   @media(max-width:960px){.project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media(max-width:720px){.landing-hero{padding:3rem 0 5rem}.landing-hero h1{font-size:2.7rem}.project-grid{grid-template-columns:1fr;gap:4rem}.hover-detail{display:none}.mobile-summary{display:block}.close{margin-top:4rem}.close-content{align-items:flex-start;flex-direction:column;gap:1rem}}
-  @media(hover:none){.hover-detail{display:none}.mobile-summary{display:block}}
+  @media(max-width:720px){.landing-hero{padding:3rem 0 5rem}.landing-hero h1{font-size:2.7rem;white-space:normal}.project-grid{grid-template-columns:1fr;gap:3rem}.mobile-summary{display:block}}
+  @media(hover:none){.mobile-summary{display:block}}
 </style>
