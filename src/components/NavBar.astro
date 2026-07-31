@@ -3,13 +3,15 @@ import { Image } from "astro:assets";
 import SiteLogo from "../assets/Michelle-Logo-2026.svg";
 import HamburgerClosed from "../assets/hamburger-closed.png";
 import HamburgerOpen from "../assets/hamburger-open.png";
+import ProjectThumbnail from "./ProjectThumbnail.astro";
+import { assets } from "../data/assets";
 const path = Astro.url.pathname;
 const projects = [
-  { href: "/unified-data-workspace", title: "Data Platform Hub", description: "SW Infra @ Nvidia", mark: "dataworkspace" },
-  { href: "/aurora", title: "Cancer Survivorship Support", description: "Design for America @ UW", mark: "aurora" },
-  { href: "/tecan", title: "Digital Visual Factory", description: "Medtech manufacturing @ Tecan", mark: "tecan" },
-  { href: "/teststudio", title: "Behavioral Testing", description: "Autonomous Vehicles @ Nvidia", mark: "testing" },
-  { href: "/mlloop", title: "Corner Case Management", description: "MLOps @ Nvidia", mark: "mlops" },
+  { href: "/unified-data-workspace", title: "Data Platform Hub", description: "SW Infra @ Nvidia", kind: "dataworkspace", image: undefined },
+  { href: "/aurora", title: "Cancer Survivorship Support", description: "Design for America @ UW", kind: "aurora", image: assets.home.auroraThumbnail },
+  { href: "/tecan", title: "Digital Visual Factory", description: "Medtech manufacturing @ Tecan", kind: "tecan", image: assets.home.tecanThumbnail },
+  { href: "/teststudio", title: "Behavioral Testing", description: "Autonomous Vehicles @ Nvidia", kind: "teststudio", image: undefined },
+  { href: "/mlloop", title: "Corner Case Management", description: "MLOps @ Nvidia", kind: "mlloop", image: undefined },
 ];
 const workIsActive = projects.some(({ href }) => path === href);
 ---
@@ -46,8 +48,14 @@ const workIsActive = projects.some(({ href }) => path === href);
           <div class="work-menu-inner">
             {projects.map((project) => (
               <a href={project.href} role="menuitem" tabindex="-1">
-                <span class={`project-mark ${project.mark}`} aria-hidden="true">
-                  <i></i>
+                <span class="project-mark" aria-hidden="true">
+                  <ProjectThumbnail
+                    src={project.image}
+                    alt=""
+                    project={project.title}
+                    kind={project.kind}
+                    compact
+                  />
                 </span>
                 <span>
                   <strong>{project.title}</strong>
@@ -158,11 +166,11 @@ const workIsActive = projects.some(({ href }) => path === href);
   .brand { display: flex; align-items: center; text-decoration: none; }
   .brand img { width: 44px; height: auto; object-fit: contain; }
   .nav-links { display: flex; gap: 1rem; align-items: center; }
-  .nav-item,.work-button,.contact-button { height: 32px; padding: 0 .75rem; display: flex; align-items: center; color:color-mix(in srgb,var(--color-base-content) 55%,transparent); background:none; border:0; border-radius:8px; font:450 .75rem/1 inherit; text-decoration:none; cursor:pointer; transition:color .15s ease,background-color .15s ease,transform .1s ease; }
+  .nav-item,.work-button,.contact-button { height: 32px; padding: 0 .75rem; display: flex; align-items: center; color:color-mix(in srgb,var(--color-base-content) 55%,transparent); background:none; border:0; border-radius:8px; font-family:inherit; font-size:.75rem; font-weight:400; line-height:1.45rem; text-decoration:none; cursor:pointer; transition:color .15s ease,background-color .15s ease,transform .1s ease; }
   .work-button,.contact-button{gap:.3rem}
   .nav-item:hover,.nav-item:focus-visible,.work-button:hover,.work-button:focus-visible,.contact-button:hover,.contact-button:focus-visible,.work-dropdown.open .work-button,.contact-dropdown.open .contact-button{color:color-mix(in srgb,var(--color-base-content) 85%,transparent);background:var(--color-base-200)}
   .nav-item:active,.work-button:active,.contact-button:active{transform:scale(.97)}
-  .nav-item.active,.work-button.active{color:var(--color-base-content);background:var(--color-base-200)}
+  .nav-item.active,.work-button.active,.work-dropdown.open .work-button,.contact-dropdown.open .contact-button{color:var(--color-base-content);background:var(--color-base-200);font-weight:650}
   .work-dropdown,.contact-dropdown { position: relative; }
   .work-button svg,.contact-button svg { transition: transform .18s ease; }
   .work-button path,.contact-button path { stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
@@ -176,22 +184,12 @@ const workIsActive = projects.some(({ href }) => path === href);
   .work-menu strong,.work-menu small,.contact-menu strong,.contact-menu small { display: block; }
   .work-menu strong,.contact-menu strong { margin-bottom: 3px; color: color-mix(in srgb, var(--color-base-content) 88%, transparent); font-size: .78rem; line-height: 1.1; }
   .work-menu small,.contact-menu small { overflow: hidden; color: color-mix(in srgb, var(--color-base-content) 48%, transparent); font-size: .68rem; line-height: 1.15; text-overflow: ellipsis; white-space: nowrap; }
-  .project-mark,.contact-mark { position: relative; width: 56px; height: 56px; flex: 0 0 auto; display: grid; place-items: center; overflow: hidden; background: var(--color-base-200); border: 1px solid color-mix(in srgb, var(--color-base-content) 7%, transparent); border-radius: 9px; }
-  .project-mark i { width: 19px; height: 19px; display: block; border: 1.5px solid currentColor; }
-  .project-mark.aurora { color: #8e4ec6; background: #f3e7fa; }
-  .project-mark.aurora i { border-radius: 50% 50% 45% 55%; transform: rotate(45deg); }
-  .project-mark.tecan { color: #2870bd; background: #e1f0ff; }
-  .project-mark.tecan i { border-radius: 3px; box-shadow: 5px 5px 0 -1px currentColor; transform: translate(-2px, -2px); }
-  .project-mark.testing { color: #d15f24; background: #ffead5; }
-  .project-mark.testing i { border-radius: 50%; border-style: dashed; }
-  .project-mark.mlops { color: #36865f; background: #dff3e7; }
-  .project-mark.mlops i { border-radius: 2px; transform: rotate(45deg); }
-  .project-mark.dataworkspace { color: #fc911e; background: #fff0df; }
-  .project-mark.dataworkspace i { border-radius: 50%; box-shadow: 8px 0 0 -3px currentColor, -8px 0 0 -3px currentColor; }
+  .project-mark,.contact-mark { position: relative; width: 56px; height: 56px; flex: 0 0 auto; display: grid; place-items: center; overflow: hidden; border-radius: 9px; }
+  .contact-mark { background: var(--color-base-200); border: 1px solid color-mix(in srgb, var(--color-base-content) 7%, transparent); }
   .contact-mark{font-weight:650;color:color-mix(in srgb,var(--color-base-content) 58%,transparent)}
-  .contact-mark.email{background:#dff3e7;color:#36865f;font-size:1rem}
-  .contact-mark.linkedin{background:#e1f0ff;color:#2870bd;font-family:Arial,sans-serif;font-size:.9rem}
-  .contact-mark.resume{background:#f3e7fa;color:#8e4ec6;font-size:.65rem;letter-spacing:.04em}
+  .contact-mark.email{font-size:1rem}
+  .contact-mark.linkedin{font-family:Arial,sans-serif;font-size:.9rem}
+  .contact-mark.resume{font-size:.65rem;letter-spacing:.04em}
   .menu-button { display: none; width: 30px; height: 30px; padding: 5px; place-items: center; background: none; border: 0; border-radius: 8px; cursor: pointer; transition: background-color .15s ease, transform .12s ease; }
   .menu-button:hover, .menu-button:focus-visible { background: var(--color-base-200); }
   .menu-button:active { transform: scale(.95); }
@@ -206,7 +204,7 @@ const workIsActive = projects.some(({ href }) => path === href);
     .nav-links.open { display: flex; }
     .nav-item,.work-button,.contact-button { width: 100%; justify-content: space-between; padding:0 .5rem; }
     .work-menu,.contact-menu { position: static; width: 100%; max-height: 0; padding: 0; overflow: hidden; box-shadow: none; transform: none; transition: max-height .2s ease, opacity .15s ease; }
-    .work-dropdown.open .work-menu { max-height: 330px; padding-top: 8px; }
+    .work-dropdown.open .work-menu { max-height: 390px; padding-top: 8px; }
     .contact-dropdown.open .contact-menu { max-height: 250px; padding-top: 8px; }
   }
 </style>

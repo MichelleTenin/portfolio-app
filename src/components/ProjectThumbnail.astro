@@ -1,28 +1,82 @@
 ---
+import { siAtlassian, siDatabricks, siGooglesheets } from "simple-icons";
+import { faSlack } from "@fortawesome/free-brands-svg-icons";
+
 type Props = {
   src?: string;
   alt: string;
   project: string;
   kind?: string;
+  compact?: boolean;
 };
 
-const { src, alt, project, kind }: Props = Astro.props;
+const { src, alt, project, kind, compact = false }: Props = Astro.props;
+const slackPath = faSlack.icon[4];
 ---
-<div class={`thumbnail bg-base-200 ${kind ?? ""}`}>
+<div class={`thumbnail bg-base-200 ${kind ?? ""} ${compact ? "compact" : ""}`}>
   {src ? (
     <img src={src} alt={alt} loading="lazy" decoding="async" />
   ) : kind === "dataworkspace" ? (
     <div class="data-workspace" role="img" aria-label={alt}>
-      <div class="data-nav"><span></span><span></span><span></span><span></span></div>
-      <div class="data-main">
-        <div class="data-toolbar"><strong></strong><i></i></div>
-        <div class="data-grid">
-          <div class="data-card large"><span></span><i></i><i></i><i></i></div>
-          <div class="data-card"><span></span><i></i><i></i></div>
-          <div class="data-card"><span></span><i></i><i></i></div>
+      <svg class="flow-lines" viewBox="0 0 400 280" aria-hidden="true">
+        <path d="M88 45 C112 45 125 27 146 24 C158 24 168 47 179 60"></path>
+        <path d="M73 141 C103 141 113 100 134 99 C151 98 165 108 179 112"></path>
+        <path d="M94 232 C121 232 128 184 150 183 C162 182 170 170 179 164"></path>
+        <path d="M94 232 C112 235 120 255 134 259 C151 248 167 211 179 198"></path>
+        <circle cx="179" cy="60" r="3"></circle>
+        <circle cx="179" cy="112" r="3"></circle>
+        <circle cx="179" cy="164" r="3"></circle>
+        <circle cx="179" cy="198" r="3"></circle>
+      </svg>
+
+      <div class="source-card source-browser">
+        <div class="source-tabs"><i></i><i></i><i></i></div>
+        <span></span><span></span>
+      </div>
+      <div class="source-card source-thread">
+        <i></i><span></span><i></i><span></span><i></i><span></span>
+      </div>
+      <div class="source-card source-sheet">
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+      </div>
+
+      <div class="tool-icon tool-sheets" title="Google Sheets" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d={siGooglesheets.path}></path>
+        </svg>
+      </div>
+      <div class="tool-icon tool-slack" title="Slack" aria-hidden="true">
+        <svg viewBox="0 0 448 512">
+          <path d={slackPath}></path>
+        </svg>
+      </div>
+      <div class="tool-icon tool-databricks" title="Databricks" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d={siDatabricks.path}></path>
+        </svg>
+      </div>
+      <div class="tool-icon tool-atlassian" title="Atlassian" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d={siAtlassian.path}></path>
+        </svg>
+      </div>
+
+      <div class="unified-pane">
+        <div class="unified-nav">
+          <strong></strong>
+          <i></i><i></i><i></i>
+        </div>
+        <div class="unified-content">
+          <div class="unified-heading"><strong></strong><i></i></div>
+          <div class="capability-card wide"><span></span><i></i><i></i></div>
+          <div class="capability-row">
+            <div class="capability-card"><span></span><i></i></div>
+            <div class="capability-card"><span></span><i></i></div>
+          </div>
         </div>
       </div>
-      <div class="data-detail"><span></span><i></i><i></i><i></i></div>
     </div>
   ) : (
     <div class="placeholder" role="img" aria-label={`${project} artwork placeholder`}>
@@ -54,11 +108,44 @@ const { src, alt, project, kind }: Props = Astro.props;
   }
   img{display:block;width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;border-radius:4px}
   .thumbnail.aurora img,.thumbnail.tecan img{width:78%;height:78%}
-  .data-workspace{width:min(90%,760px);aspect-ratio:16/9;display:grid;grid-template-columns:14% minmax(0,1fr) 22%;gap:1px;overflow:hidden;background:#f3ddc8;border:1px solid #edc49b;border-radius:8px;box-shadow:0 22px 50px #8a4a0e20}
-  .data-nav,.data-main,.data-detail{background:#fffaf5}.data-nav{padding:8%;display:flex;flex-direction:column;gap:8%}.data-nav span{height:3%;min-height:6px;border-radius:6px;background:#f4dfca}.data-nav span:first-child{width:60%;margin-bottom:18%;background:#fc911e}
-  .data-main{padding:6%}.data-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:7%}.data-toolbar strong{width:38%;height:12px;border-radius:4px;background:#252534}.data-toolbar i{width:20%;height:22px;border-radius:5px;background:#fff0df;border:1px solid #ffd0a0}
-  .data-grid{display:grid;grid-template-columns:1fr 1fr;gap:5%}.data-card{min-height:64px;padding:7%;background:#fff;border:1px solid #eee1d5;border-radius:5px}.data-card.large{grid-column:1/-1;min-height:82px}.data-card span,.data-detail span{display:block;width:42%;height:7px;margin-bottom:12%;border-radius:5px;background:#fc911e}.data-card i,.data-detail i{display:block;width:100%;height:5px;margin-top:6%;border-radius:5px;background:#f1e4d8}.data-card i:last-child{width:64%}
-  .data-detail{padding:12% 10%}.data-detail span{width:58%;background:#252534}.data-detail i:nth-of-type(2){width:74%}.data-detail i:nth-of-type(3){width:88%}
+  .thumbnail.compact{
+    width:56px;
+    height:56px;
+    aspect-ratio:1;
+    padding:5px;
+    flex:0 0 auto;
+    background:var(--color-base-200);
+    border-color:color-mix(in srgb,var(--color-base-content) 8%,transparent);
+    border-radius:9px;
+    box-shadow:none;
+    transition:none;
+  }
+  .thumbnail.compact.aurora img,.thumbnail.compact.tecan img{width:82%;height:82%}
+  .thumbnail.compact .data-workspace{width:96%}
+  .thumbnail.compact .source-card{border-radius:2px;box-shadow:none}
+  .thumbnail.compact .flow-lines{stroke-width:2.5}
+  .thumbnail.compact .unified-pane{border-radius:3px;box-shadow:none}
+  .thumbnail.compact .capability-card{border-radius:1px}
+
+  .data-workspace{position:relative;width:min(94%,760px);aspect-ratio:10/7}
+  .flow-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;fill:none;stroke:color-mix(in srgb,var(--color-base-content) 18%,transparent);stroke-width:1.5;stroke-linecap:round}
+  .flow-lines circle{fill:color-mix(in srgb,var(--color-base-content) 45%,var(--color-base-100));stroke:none}
+  .source-card{position:absolute;padding:3.2%;overflow:hidden;background:var(--color-base-100);border:1px solid var(--color-base-300);border-radius:6px;box-shadow:0 8px 20px color-mix(in srgb,var(--color-base-content) 5%,transparent)}
+  .source-browser{left:1%;top:4%;width:29%;height:25%}
+  .source-tabs{display:flex;gap:4%;margin:-1% 0 12%}.source-tabs i{width:19%;aspect-ratio:1.8;border-radius:3px;background:var(--color-base-300)}.source-tabs i:first-child{background:color-mix(in srgb,var(--color-base-content) 38%,var(--color-base-200))}
+  .source-browser>span{display:block;width:82%;height:8%;margin-top:8%;border-radius:4px;background:color-mix(in srgb,var(--color-base-content) 11%,var(--color-base-100))}.source-browser>span:last-child{width:55%}
+  .source-thread{left:0;top:38%;width:25%;height:25%;display:grid;grid-template-columns:14% 1fr;align-content:center;gap:10% 8%}
+  .source-thread i{aspect-ratio:1;border-radius:50%;background:var(--color-base-300)}.source-thread i:nth-of-type(2){background:color-mix(in srgb,var(--color-base-content) 22%,var(--color-base-200))}.source-thread span{height:24%;align-self:center;border-radius:4px;background:color-mix(in srgb,var(--color-base-content) 11%,var(--color-base-100))}.source-thread span:nth-of-type(2){width:72%}
+  .source-sheet{left:5%;bottom:4%;width:28%;height:24%;display:grid;grid-template-columns:repeat(3,1fr);gap:5%;padding:3.6%}
+  .source-sheet span{border-radius:2px;background:color-mix(in srgb,var(--color-base-content) 9%,var(--color-base-100))}.source-sheet span:nth-child(2),.source-sheet span:nth-child(6),.source-sheet span:nth-child(7){background:color-mix(in srgb,var(--color-base-content) 20%,var(--color-base-200))}
+  .tool-icon{position:absolute;z-index:2;width:9%;aspect-ratio:1;display:grid;place-items:center;background:var(--color-base-100);border:1px solid var(--color-base-300);border-radius:5px;box-shadow:0 5px 12px color-mix(in srgb,var(--color-base-content) 5%,transparent);color:color-mix(in srgb,var(--color-base-content) 62%,transparent)}
+  .tool-icon svg{width:62%;height:62%;fill:currentColor}.tool-slack svg{width:56%;height:56%}
+  .tool-sheets{color:#34a853}.tool-slack{color:#4a154b}.tool-databricks{color:#ff3621}.tool-atlassian{color:#0052cc}
+  .tool-sheets{left:32%;top:2%}.tool-slack{left:29%;top:29%}.tool-databricks{left:33%;top:59%}.tool-atlassian{left:29%;bottom:1%}
+  .unified-pane{position:absolute;right:1%;top:10%;width:56%;height:80%;display:grid;grid-template-columns:18% 1fr;overflow:hidden;background:var(--color-base-100);border:1px solid var(--color-base-300);border-radius:8px;box-shadow:0 18px 44px color-mix(in srgb,var(--color-base-content) 8%,transparent)}
+  .unified-nav{padding:24% 18%;display:flex;flex-direction:column;gap:9%;background:var(--color-base-200);border-right:1px solid var(--color-base-300)}.unified-nav strong{width:62%;height:4%;margin-bottom:28%;border-radius:4px;background:color-mix(in srgb,var(--color-base-content) 55%,var(--color-base-200))}.unified-nav i{width:100%;height:3%;border-radius:4px;background:color-mix(in srgb,var(--color-base-content) 14%,var(--color-base-200))}.unified-nav i:nth-of-type(2){width:78%}
+  .unified-content{padding:9%;background:var(--color-base-100)}.unified-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:9%}.unified-heading strong{width:42%;height:6px;border-radius:4px;background:var(--color-base-content)}.unified-heading i{width:18%;height:13px;border:1px solid var(--color-base-300);border-radius:3px;background:var(--color-base-200)}
+  .capability-card{padding:8%;background:color-mix(in srgb,var(--color-base-100) 75%,white);border:1px solid var(--color-base-300);border-radius:4px}.capability-card.wide{min-height:37%;margin-bottom:6%}.capability-row{display:grid;grid-template-columns:1fr 1fr;gap:6%}.capability-card span{display:block;width:48%;height:4px;margin-bottom:13%;border-radius:4px;background:color-mix(in srgb,var(--color-base-content) 42%,var(--color-base-200))}.capability-card i{display:block;width:100%;height:3px;margin-top:8%;border-radius:4px;background:color-mix(in srgb,var(--color-base-content) 10%,var(--color-base-100))}.capability-card i:last-child{width:64%}
   .placeholder{
     width:min(78%,520px);
     aspect-ratio:4/3;
@@ -74,7 +161,10 @@ const { src, alt, project, kind }: Props = Astro.props;
   .placeholder-art{display:grid;grid-template-columns:1.5fr 1fr;grid-template-rows:1fr 1fr;gap:8px;flex:1;margin-bottom:1.25rem}
   .placeholder-art span{display:block;border-radius:3px;background:color-mix(in srgb,var(--color-base-content) 6%,transparent)}
   .placeholder-art span:first-child{grid-row:1/3}.placeholder-art span:last-child{background:color-mix(in srgb,var(--color-primary) 24%,var(--color-base-100))}
-  .placeholder strong{display:block;font:400 1.05rem/1.2 Georgia,serif;color:color-mix(in srgb,var(--color-base-content) 78%,transparent)}
+  .placeholder strong{display:block;font:400 1.05rem/1.2 var(--font-display);color:color-mix(in srgb,var(--color-base-content) 78%,transparent)}
   .placeholder small{display:block;margin-top:.25rem;font-size:.68rem;letter-spacing:.01em}
-  @media(max-width:720px){.thumbnail{padding:24px}.thumbnail.aurora img,.thumbnail.tecan img{width:84%;height:84%}.placeholder{width:88%}.data-workspace{width:100%;grid-template-columns:16% minmax(0,1fr)}.data-detail{display:none}}
+  .thumbnail.compact .placeholder{width:88%;padding:4px;border-radius:3px}
+  .thumbnail.compact .placeholder-art{margin:0;gap:2px}
+  .thumbnail.compact .placeholder>div:last-child{display:none}
+  @media(max-width:720px){.thumbnail{padding:24px}.thumbnail.aurora img,.thumbnail.tecan img{width:84%;height:84%}.placeholder{width:88%}.data-workspace{width:100%}}
 </style>

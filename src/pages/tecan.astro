@@ -2,40 +2,45 @@
 import CaseStudy from "../components/CaseStudy.astro";
 import { assets } from "../data/assets";
 const project = {
-  number:"02", title:"Tecan", headline:"I created a visual factory for Tecan’s production line.", breadcrumb:"Digital Visual Factory / Medtech manufacturing @ Tecan", kind:"tecan", cover:assets.tecan.cover, layout:"tecan", kicker:"Research · Usability testing · IA", role:"Product designer", duration:"Oct 2019—Oct 2020",
-  excerpt:"I transformed paper-based assembly instructions into a digital workflow that improved speed, traceability, and consistency for a medtech robotics company during the COVID-19 pandemic.",
-  overview:"Tecan Group is a global provider of laboratory instruments and automation solutions. Within the bio-lab manufacturing division, I worked with production personnel and Manufacturing Engineers to redesign the assembly process through user-centered design practices.",
-  objective:"Transform written assembly instructions and CAD drawings into a digital Visual Factory platform to improve line efficiency and reduce production errors.",
+  number:"02", title:"Tecan", headline:"A visual factory for Tecan’s production line.", breadcrumb:"Digital Visual Factory / Medtech manufacturing @ Tecan", kind:"tecan", cover:assets.tecan.cover, layout:"tecan", kicker:"Research · Usability testing · IA", role:"Product designer", duration:"Oct 2019—Oct 2020",
+  sections:[
+    { id:"overview", label:"Context" },
+    { id:"challenge", label:"Production gap" },
+    { id:"process", label:"Floor research" },
+    { id:"solution", label:"Visual factory" },
+    { id:"reflection", label:"Takeaways" },
+  ],
+  excerpt:"At Tecan Group, a global laboratory automation company, I worked directly with production personnel and manufacturing engineers to study factory-floor workflows, translate CAD drawings into digital assembly instructions, and test a Visual Factory platform for greater efficiency, traceability, and consistency.",
   challengeTitle:"Paper instructions could not keep pace with the line.",
   challenge:"Production lines relied heavily on printed instructions and manual verification, leading to inconsistencies and delays. Operators had developed informal methods over time, creating variations in assembly accuracy and documentation.",
   challengeItems:["Inconsistent operator methods","Paper-based verification added friction","Outdated hard-copy instructions","Limited checkpoints for accountability"],
-  designPrompt:"How might we reduce production errors and improve efficiency through digital line tracing and visual aids?",
+  callout:"How might digital line tracing and visual guidance reduce production errors while improving efficiency?",
   approachTitle:"Design from the production floor out.",
-  approach:"I embedded myself on the production floor to observe workflows firsthand—shadowing operators, conducting informal interviews, and testing prototypes directly with end users.",
+  approach:"Research began on the production floor: shadowing operators, conducting informal interviews, and testing prototypes directly with the people assembling laboratory automation systems.",
   personas:[
     {
-      name:"William", age:"40", role:"Manufacturing Engineer", image:assets.tecan.personas.william,
+      name:"William", role:"Manufacturing Engineer", image:assets.tecan.personas.william,
       bio:"In his second year at the company, William supports multiple production lines. Updated work instructions are the last thing on his mind while he puts out fires on the floor.",
       goal:"Minimize production errors.",
       frustrations:["Separate instruction documents are difficult to maintain","Production and operator accountability are hard to track","Assembly errors lower output per line"],
     },
     {
-      name:"Frank", age:"30", role:"Inexperienced Operator", image:assets.tecan.personas.frank,
+      name:"Frank", role:"Inexperienced Operator", image:assets.tecan.personas.frank,
       bio:"New to the production floor, Frank has basic tool-handling experience and needs to move slowly through unfamiliar, customer-specific builds.",
       goal:"Learn the assembly process with minimal confusion and errors.",
       frustrations:["Language barriers","Unfamiliar assembly processes","Flipping through instructions takes too long"],
     },
     {
-      name:"Kim", age:"55", role:"Experienced Operator", image:assets.tecan.personas.kim,
+      name:"Kim", role:"Experienced Operator", image:assets.tecan.personas.kim,
       bio:"Kim has years of experience across multiple lines and products. She uses batch-style assembly and rarely opens the dense work instructions.",
       goal:"Work quickly and error-free while understanding the current build.",
       frustrations:["Too much production paperwork","Needs to move quickly through assembly","Dense and unreliable work instructions"],
     },
   ],
   processNotes:[
-    { title:"Research & discovery", copy:"I embedded myself on the production floor to observe workflows firsthand—shadowing operators, conducting informal interviews, and testing prototypes directly with end users." },
+    { title:"Research & discovery", copy:"Direct observation exposed how operators adapted instructions, tools, and verification steps under real production pressure." },
     { title:"Design & iteration", copy:"Early iterations focused on digitizing the most error-prone steps and streamlining verification. The Visual Factory platform integrated digital instructions, embedded CAD visuals, and real-time checkpoints to improve traceability." },
-    { title:"Remote collaboration", copy:"Transitioning to remote work during COVID-19 limited direct user access, so I leaned on observational data and iterative reviews with the Manufacturing Engineering Manager to refine usability and flow." },
+    { title:"Remote collaboration", copy:"When COVID-19 limited direct user access, observational data and iterative reviews with the Manufacturing Engineering Manager guided refinements to usability and flow." },
   ],
   solutionTitle:"Interactive instructions made the assembly process visible.",
   solution:"The redesigned Visual Factory replaced static documents with interactive digital instructions that provided visual cues, progress tracking, and clearer accountability.",
@@ -44,9 +49,9 @@ const project = {
   solutionMediaAlt:"Visual Factory interface showing digital assembly instructions and verification controls",
   reflectionTitle:"Proximity, adaptability, and visual clarity.",
   reflection:[
-    "Working at Tecan was a formative experience in bridging user research and manufacturing design.",
-    "I learned the importance of proximity to users, adaptability when access is limited, and the power of visual clarity in high-stakes production environments.",
-    "Contributing to a company that supported medical labs during the COVID-19 pandemic was both humbling and motivating—reinforcing my desire to design systems that make a tangible impact.",
+    "The work at Tecan bridged user research and manufacturing design in a technical, high-stakes production environment.",
+    "The project reinforced the importance of proximity to users, adaptability when access is limited, and visual clarity when instructions shape physical work.",
+    "Supporting a company that equipped medical labs during COVID-19 underscored how thoughtful systems design can create tangible impact.",
   ],
   next:"Behavioral Testing", nextHref:"/teststudio"
 };
