@@ -4,6 +4,7 @@ export const assets = {
     texture: "/assets/framer/home/1PJVJutjlmXDrQzCM5kuS4Ilo.avif",
     auroraThumbnail: "/assets/thumbnails/aurora-thumbnail.png",
     tecanThumbnail: "/assets/thumbnails/tecan-thumbnail.png",
+    mlLoopThumbnail: "/assets/mlloop/scenario-workspace-hero.png",
     contourOne: "/assets/framer/home/JvD3j2vtI3LIFJOEemhBXGdk.avif",
     contourTwo: "/assets/framer/home/mENJLcN1AqCTYHCft70MEpaXQY.avif",
   },

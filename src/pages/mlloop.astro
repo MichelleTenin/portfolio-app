@@ -1,17 +1,359 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
+import CSHero from "../components/CSHero.astro";
+
+const project = {
+  number: "04",
+  title: "Closing the ML Data Loop",
+  headline: "I turned isolated model failures into a trackable data-improvement lifecycle.",
+  breadcrumb: "Scenario-centered data management / Autonomous driving",
+  role: "Product & service designer",
+  duration: "Oct 2024–Mar 2025",
+  cover: "/assets/mlloop/ml-data-loop-hero.png",
+  excerpt:
+    "Autonomous-driving teams could find model failures, but they could not follow the data used to address them across collection, annotation, training, and evaluation. I led the service and product design for a shared workspace that connected those steps around a persistent failure scenario.",
+};
+
+const sections = [
+  { id: "context", label: "Why it mattered" },
+  { id: "system", label: "Mapping the system" },
+  { id: "prototype", label: "Proving the workflow" },
+  { id: "collaboration", label: "Co-design" },
+  { id: "solution", label: "Solution" },
+  { id: "impact", label: "Impact" },
+  { id: "reflection", label: "Reflection" },
+];
+
+const sectionIds = JSON.stringify(sections.map((section) => section.id));
+
+const solutionViews = [
+  {
+    id: "context-view",
+    label: "Review the right context",
+    title: "Shape the dataset view around the decision.",
+    copy: "Data specialists could tailor the metadata shown for a review task, making large datasets easier to scan without forcing every workflow into the same display.",
+    visual: "metadata",
+  },
+  {
+    id: "failure-view",
+    label: "Investigate model failures",
+    title: "Move from an aggregate result to the examples behind it.",
+    copy: "Reviewers could navigate highest-error examples and compare reference labels with model output while keeping the surrounding dataset context in view.",
+    visual: "examples",
+  },
+  {
+    id: "measurement-view",
+    label: "Measure whether the data worked",
+    title: "Connect a dataset release to model evaluation.",
+    copy: "Tailored training metrics helped teams judge whether targeted data improved a scenario or whether another collection and curation cycle was needed.",
+    visual: "metrics",
+  },
+];
 ---
-<MainLayout title="Corner Case Management — Michelle Tenin">
-  <section class="shell placeholder">
-    <a href="/#work">← All work</a>
-    <p>Corner Case Management / MLOps @ Nvidia</p>
-    <h1 class="display">Case study coming soon.</h1>
-  </section>
+
+<MainLayout title="Closing the ML Data Loop — Michelle Tenin">
+  <div class="case-layout shell">
+    <aside class="side-nav" aria-label="Case study sections">
+      <div class="side-track" aria-hidden="true"><span></span></div>
+      <ol data-case-nav data-sections={sectionIds}>
+        {sections.map((section) => (
+          <li><a href={`#${section.id}`}>{section.label}</a></li>
+        ))}
+      </ol>
+    </aside>
+
+    <div class="case-column">
+      <CSHero {...project} />
+
+      <article class="story">
+        <section id="context">
+          <div class="section-heading"><span>Why it mattered</span><i></i></div>
+          <h2 class="display">A model failure is not always a model problem.</h2>
+          <p>
+            Issues found during road testing became engineering tickets. An engineer would adjust the model and test again—but some failures needed better or more representative data, not another round of parameter tuning.
+          </p>
+          <p>
+            There was no scenario-level record connecting the issue to the data collected for it, the preparation work requested, or the model results that followed. Teams could track a ticket. They could not track the improvement cycle.
+          </p>
+
+          <div class="impact-preview" aria-label="Project impact">
+            <div><strong>0 → ~30</strong><span>models with scenario tracking</span></div>
+            <div><strong>Thousands</strong><span>of scenarios tracked</span></div>
+            <div><strong>1 workspace</strong><span>connecting the data loop</span></div>
+          </div>
+        </section>
+
+        <section id="system">
+          <div class="section-heading"><span>Mapping the system</span><i></i></div>
+          <h2 class="display">I followed the data across teams—not just screens.</h2>
+          <p>
+            I interviewed model engineers, data specialists, engineering leadership, annotation operations, and data publishing teams. Journey mapping exposed where context disappeared as a scenario moved between people and systems.
+          </p>
+          <p>
+            The design opportunity was to make the failure scenario a persistent unit of work: a shared thread connecting the data assembled for it, operational requests, released datasets, and evaluation evidence.
+          </p>
+
+          <figure class="loop-map" aria-labelledby="loop-caption">
+            <div class="loop-track">
+              <div><span>01</span><strong>Collect</strong></div>
+              <i aria-hidden="true">→</i>
+              <div><span>02</span><strong>Curate</strong></div>
+              <i aria-hidden="true">→</i>
+              <div><span>03</span><strong>Prepare & label</strong></div>
+              <i aria-hidden="true">→</i>
+              <div><span>04</span><strong>Pretrain</strong></div>
+              <i aria-hidden="true">→</i>
+              <div><span>05</span><strong>Train</strong></div>
+              <i aria-hidden="true">→</i>
+              <div><span>06</span><strong>Evaluate</strong></div>
+            </div>
+            <div class="loop-return" aria-hidden="true"><span>Evidence informs the next data cycle</span><i>↩</i></div>
+            <figcaption id="loop-caption">The workspace connected an improvement loop that had previously been distributed across separate systems and teams.</figcaption>
+          </figure>
+        </section>
+
+        <section id="prototype">
+          <div class="section-heading"><span>Proving the workflow</span><i></i></div>
+          <h2 class="display">Useful first. Integrated second.</h2>
+          <p>
+            Many capabilities began as lightweight spreadsheet or notebook workflows. These prototypes let the team test whether a workflow was useful before investing in the APIs and large-scale data operations needed to support it in the shared interface.
+          </p>
+
+          <div class="prototype-path" aria-label="Path from workflow prototype to integrated product">
+            <div><small>Explore</small><strong>Spreadsheet and notebook workflows</strong><span>Test the task with real data</span></div>
+            <i aria-hidden="true">→</i>
+            <div><small>Prove</small><strong>Working interface prototypes</strong><span>Refine the interaction in code</span></div>
+            <i aria-hidden="true">→</i>
+            <div><small>Integrate</small><strong>Production workspace</strong><span>Build the supporting services</span></div>
+          </div>
+
+          <p>
+            This approach also clarified product boundaries. The workspace needed to support operational curation, while deeper exploratory analysis was often better served by dedicated analytics tools.
+          </p>
+        </section>
+
+        <section id="collaboration">
+          <div class="section-heading"><span>Co-design</span><i></i></div>
+          <h2 class="display">Tight feedback loops made the service real.</h2>
+          <p>
+            The product was shaped alongside the data specialists who would operate it. We reviewed ideas as they emerged—from dataset curation to comparing reference labels with model output—and iterated before the workflows hardened into infrastructure.
+          </p>
+          <p>
+            During an onsite hackathon, the team brought one collaboration feature from idea to a working flow in a week. A data specialist could share curated samples with a model engineer, receive flagged examples asynchronously, refine the data-mining query, and then send the improved dataset for managed annotation.
+          </p>
+
+          <div class="review-loop" aria-label="Asynchronous dataset review loop">
+            <div><span>Data specialist</span><strong>Curate samples</strong></div>
+            <i aria-hidden="true">→</i>
+            <div><span>Model engineer</span><strong>Flag poor examples</strong></div>
+            <i aria-hidden="true">→</i>
+            <div><span>Data specialist</span><strong>Refine the query</strong></div>
+            <i aria-hidden="true">→</i>
+            <div><span>Data operations</span><strong>Prepare the dataset</strong></div>
+          </div>
+        </section>
+
+        <section id="solution">
+          <div class="section-heading"><span>Solution</span><i></i></div>
+          <h2 class="display">One workspace, three views of improvement.</h2>
+          <p>
+            The final experience brought curation, operational requests, and evaluation into one scenario-centered workflow. These three capabilities made the loop observable without trying to replace every specialized system around it.
+          </p>
+
+          <div class="solution-switcher" data-solution-switcher>
+            <div class="solution-tabs" role="tablist" aria-label="Solution capabilities">
+              {solutionViews.map((view, index) => (
+                <button
+                  type="button"
+                  role="tab"
+                  id={`${view.id}-tab`}
+                  aria-controls={view.id}
+                  aria-selected={index === 0 ? "true" : "false"}
+                  tabindex={index === 0 ? "0" : "-1"}
+                >
+                  {view.label}
+                </button>
+              ))}
+            </div>
+
+            {solutionViews.map((view, index) => (
+              <article
+                class="solution-panel"
+                id={view.id}
+                role="tabpanel"
+                aria-labelledby={`${view.id}-tab`}
+                hidden={index !== 0}
+              >
+                <div class="solution-copy">
+                  <h3>{view.title}</h3>
+                  <p>{view.copy}</p>
+                </div>
+
+                {view.visual === "metadata" && (
+                  <figure class="feature-visual hero-visual">
+                    <img src="/assets/mlloop/scenario-workspace-hero.png" alt="Fictionalized scenario dataset workspace with configurable metadata" loading="lazy" />
+                  </figure>
+                )}
+
+                {view.visual === "examples" && (
+                  <figure class="feature-visual examples-visual" aria-label="Fictionalized highest-error example review">
+                    <div class="example-list">
+                      <span class="active"></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="example-detail">
+                      <div class="scene-frame"><span>Example preview</span></div>
+                      <div class="comparison"><div><small>Reference</small><strong>Pedestrian crossing</strong></div><div><small>Model output</small><strong>Low confidence</strong></div></div>
+                    </div>
+                  </figure>
+                )}
+
+                {view.visual === "metrics" && (
+                  <figure class="feature-visual metrics-visual" aria-label="Fictionalized model evaluation dashboard">
+                    <div class="metric-head"><span>Scenario performance</span><i>Dataset release</i></div>
+                    <div class="metric-chart">
+                      <span style="--bar:.44"></span><span style="--bar:.58"></span><span style="--bar:.66"></span><span style="--bar:.77"></span><span style="--bar:.84"></span>
+                    </div>
+                    <div class="metric-legend"><span>Earlier runs</span><span>Latest run</span></div>
+                  </figure>
+                )}
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="impact">
+          <div class="section-heading"><span>Impact</span><i></i></div>
+          <h2 class="display">Scenario tracking became a shared operating layer.</h2>
+          <p>
+            By the end of the project, the organization had moved from no scenario-centered tracking to a central workspace spanning approximately 30 models and thousands of scenarios.
+          </p>
+
+          <div class="outcomes">
+            <div><h3>Connected systems</h3><p>Collection, annotation, dataset publishing, and evaluation gained shared connection points.</p></div>
+            <div><h3>Self-service visibility</h3><p>Model engineers could observe data work and follow progress without relying on disconnected status updates.</p></div>
+            <div><h3>Persistent tracking</h3><p>Teams could follow a failure scenario across repeated data and model iterations.</p></div>
+          </div>
+
+          <blockquote>The workspace became the de facto scenario-centered data-management tool.</blockquote>
+        </section>
+
+        <section id="reflection">
+          <div class="section-heading"><span>Reflection</span><i></i></div>
+          <h2 class="display">The interface was only the visible layer.</h2>
+          <p>
+            My work ranged from journey mapping and information architecture to coded prototypes, interview plans, engineering handoff, and UI quality assurance. The harder design problem was aligning services, teams, and feedback loops around the same unit of work.
+          </p>
+          <p>
+            We deliberately deferred synthetic-data supplementation until the core lifecycle had been proven with collected data. Establishing reliable tracking first created a foundation for a more automated improvement loop later.
+          </p>
+        </section>
+
+        <nav class="next">
+          <a href="/">← All projects</a>
+          <a href="/unified-data-workspace">Next: Data Platform Hub →</a>
+        </nav>
+      </article>
+    </div>
+  </div>
 </MainLayout>
 
+<script>
+  const nav = document.querySelector<HTMLOListElement>("[data-case-nav]");
+  if (nav) {
+    const ids: string[] = JSON.parse(nav.dataset.sections ?? "[]");
+    const links = Array.from(nav.querySelectorAll<HTMLAnchorElement>("a"));
+    const indicator = nav.parentElement?.querySelector<HTMLElement>(".side-track span");
+
+    const activate = (id: string) => {
+      links.forEach((link) => link.toggleAttribute("aria-current", link.hash === `#${id}`));
+      const active = links.find((link) => link.hash === `#${id}`);
+      const item = active?.closest("li");
+      if (!item || !indicator) return;
+      const listRect = nav.getBoundingClientRect();
+      const itemRect = item.getBoundingClientRect();
+      indicator.style.transform = `translateY(${itemRect.top - listRect.top + (itemRect.height - indicator.offsetHeight) / 2}px)`;
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.find((entry) => entry.isIntersecting);
+        if (visible) activate(visible.target.id);
+      },
+      { rootMargin: "-15% 0px -65% 0px" }
+    );
+
+    ids.forEach((id) => {
+      const section = document.getElementById(id);
+      if (section) observer.observe(section);
+    });
+    activate(ids[0]);
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-solution-switcher]").forEach((switcher) => {
+    const tabs = Array.from(switcher.querySelectorAll<HTMLButtonElement>("[role='tab']"));
+    const panels = Array.from(switcher.querySelectorAll<HTMLElement>("[role='tabpanel']"));
+
+    const selectTab = (tab: HTMLButtonElement) => {
+      tabs.forEach((item) => {
+        const selected = item === tab;
+        item.setAttribute("aria-selected", String(selected));
+        item.tabIndex = selected ? 0 : -1;
+      });
+      panels.forEach((panel) => panel.hidden = panel.id !== tab.getAttribute("aria-controls"));
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => selectTab(tab));
+      tab.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+        event.preventDefault();
+        const direction = event.key === "ArrowRight" ? 1 : -1;
+        const next = tabs[(index + direction + tabs.length) % tabs.length];
+        selectTab(next);
+        next.focus();
+      });
+    });
+  });
+</script>
+
 <style>
-  .placeholder{min-height:calc(100vh - 88px);padding:3rem 0 8rem;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;max-width:1120px}
-  .placeholder>a{position:absolute;top:8rem;font-size:.78rem;color:var(--muted);text-underline-offset:4px}
-  .placeholder>p{margin:0 0 .75rem;font-size:.65rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
-  h1{max-width:720px;margin:0;font-size:clamp(2.6rem,5vw,4.5rem)}
+  .case-layout{--accent:#2c6bed;--visual-bg:#f3f6fb;--visual-border:color-mix(in srgb,var(--ink) 10%,transparent);position:relative;display:grid;grid-template-columns:180px minmax(0,48rem) 180px;justify-content:center;gap:2.5rem}
+  .case-column{grid-column:2;min-width:0}
+  .case-column :global(.case-cover){aspect-ratio:4/3;max-height:none;object-fit:cover;object-position:left top;border-radius:var(--radius-box)}
+  .side-nav{position:sticky;top:9rem;align-self:start;display:flex;gap:.75rem;padding-top:1rem}
+  .side-track{position:relative;width:1.5px;background:color-mix(in srgb,var(--ink) 8%,transparent);border-radius:2px}
+  .side-track span{position:absolute;top:0;left:0;width:1.5px;height:12px;background:var(--ink);border-radius:2px;transition:transform .25s ease}
+  .side-nav ol{list-style:none;margin:0;padding:0}.side-nav li{margin:0}
+  .side-nav a{display:block;padding:2px 0;font-size:.75rem;line-height:1.45rem;text-decoration:none;color:color-mix(in srgb,var(--ink) 32%,transparent);transition:color .2s}
+  .side-nav a[aria-current]{color:var(--ink);font-weight:650}
+  .story section{scroll-margin-top:2rem;padding:5rem 0 0}
+  .section-heading{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem;font-size:.82rem;font-weight:650;color:color-mix(in srgb,var(--ink) 72%,transparent)}
+  .section-heading i{display:block;flex:1;height:1px;background:color-mix(in srgb,var(--ink) 8%,transparent)}
+  .story h2{max-width:42rem;margin:.25rem 0 1rem;font-size:1.65rem;line-height:1.35;letter-spacing:-.02em}
+  .story section>p{max-width:44rem;margin:.65rem 0;font-size:.9rem;line-height:1.55rem}
+  blockquote{margin:2rem 0 0;padding:.25rem 0 .25rem 1.25rem;border-left:2px solid var(--ink);font:400 1.1rem/1.55 var(--font-display)}
+  .impact-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin:2.25rem 0 .25rem;padding:1.5rem 0;border-top:1px solid var(--visual-border);border-bottom:1px solid var(--visual-border)}
+  .impact-preview strong{display:block;font:400 1.6rem/1 var(--font-display)}.impact-preview span{display:block;margin-top:.45rem;font-size:.68rem;line-height:1rem;color:var(--muted)}
+  .loop-map{margin:2rem 0 0;padding:1.4rem;border:1px solid var(--visual-border);border-radius:var(--radius-box);background:var(--visual-bg)}
+  .loop-track{display:flex;align-items:center;justify-content:space-between;gap:.5rem}.loop-track>div{min-width:0;flex:1;padding:.8rem;background:var(--color-base-100);border:1px solid var(--visual-border);border-radius:8px}.loop-track span,.prototype-path small{display:block;margin-bottom:.35rem;font-size:.58rem;color:var(--muted)}.loop-track strong{display:block;font-size:.7rem;line-height:.9rem}.loop-track>i,.prototype-path>i,.review-loop>i{font-style:normal;color:color-mix(in srgb,var(--ink) 30%,transparent)}
+  .loop-return{display:flex;justify-content:flex-end;align-items:center;gap:.5rem;margin-top:.8rem;font-size:.63rem;color:var(--muted)}.loop-return i{font-style:normal;font-size:1.1rem;color:var(--accent)}
+  .loop-map figcaption{margin-top:.85rem;padding-top:.75rem;border-top:1px solid var(--visual-border);font-size:.68rem;line-height:1.05rem;color:var(--muted)}
+  .prototype-path{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:1rem;margin:2rem 0;padding:1.4rem;border:1px solid var(--visual-border);border-radius:var(--radius-box);background:var(--visual-bg)}
+  .prototype-path>div{min-height:105px;padding:1rem;background:var(--color-base-100);border:1px solid var(--visual-border);border-radius:8px}.prototype-path strong{display:block;font-size:.73rem;line-height:1.05rem}.prototype-path span{display:block;margin-top:.5rem;font-size:.64rem;line-height:1rem;color:var(--muted)}
+  .review-loop{display:grid;grid-template-columns:repeat(7,auto);align-items:center;justify-content:space-between;gap:.65rem;margin-top:2rem;padding:1.4rem;border:1px solid var(--visual-border);border-radius:var(--radius-box);background:var(--visual-bg)}
+  .review-loop>div{min-width:0}.review-loop span{display:block;margin-bottom:.35rem;font-size:.57rem;color:var(--muted)}.review-loop strong{display:block;max-width:110px;font-size:.68rem;line-height:.95rem}
+  .solution-switcher{margin-top:2rem}.solution-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;padding:.35rem;background:var(--visual-bg);border:1px solid var(--visual-border);border-radius:10px}
+  .solution-tabs button{min-height:42px;padding:.55rem .65rem;border:0;border-radius:7px;background:transparent;color:var(--muted);font:600 .68rem/1rem var(--font-sans);cursor:pointer}.solution-tabs button[aria-selected="true"]{background:var(--color-base-100);color:var(--ink);box-shadow:0 2px 8px color-mix(in srgb,var(--ink) 7%,transparent)}
+  .solution-panel{padding-top:1.25rem}.solution-panel[hidden]{display:none}.solution-copy{display:grid;grid-template-columns:1fr 1.2fr;gap:2rem;align-items:start;padding:.4rem .2rem 1rem}.solution-copy h3{margin:0;font:400 1.15rem/1.35 var(--font-display)}.solution-copy p{margin:0;font-size:.75rem;line-height:1.25rem;color:var(--muted)}
+  .feature-visual{height:440px;margin:0;overflow:hidden;border:1px solid var(--visual-border);border-radius:var(--radius-box);background:var(--visual-bg)}.hero-visual{display:grid;place-items:center;padding:1.5rem}.hero-visual img{display:block;width:100%;height:100%;object-fit:contain;border-radius:8px}
+  .examples-visual{display:grid;grid-template-columns:150px 1fr;padding:1.25rem;gap:1rem}.example-list{display:grid;align-content:start;gap:.65rem;padding:.8rem;background:var(--color-base-100);border:1px solid var(--visual-border);border-radius:8px}.example-list span{height:58px;border-radius:6px;background:linear-gradient(135deg,#dbe4f1,#eef2f7)}.example-list span.active{outline:2px solid var(--accent);outline-offset:1px}.example-detail{display:grid;grid-template-rows:1fr auto;gap:1rem}.scene-frame{display:grid;place-items:center;border-radius:8px;background:linear-gradient(155deg,#c7d4e4,#eef3f8 55%,#d9e3ef);color:color-mix(in srgb,var(--ink) 45%,transparent);font-size:.68rem}.comparison{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}.comparison>div{padding:.8rem;background:var(--color-base-100);border:1px solid var(--visual-border);border-radius:8px}.comparison small{display:block;margin-bottom:.3rem;font-size:.56rem;color:var(--muted)}.comparison strong{font-size:.68rem}
+  .metrics-visual{display:flex;flex-direction:column;padding:1.5rem}.metric-head{display:flex;align-items:center;justify-content:space-between}.metric-head span{font-size:.75rem;font-weight:650}.metric-head i{padding:.35rem .55rem;border:1px solid var(--visual-border);border-radius:5px;background:var(--color-base-100);font-size:.58rem;font-style:normal;color:var(--muted)}.metric-chart{height:300px;display:flex;align-items:flex-end;gap:1.1rem;margin-top:1.25rem;padding:1.25rem 1.5rem 0;border-left:1px solid var(--visual-border);border-bottom:1px solid var(--visual-border);background:repeating-linear-gradient(to bottom,transparent 0,transparent 58px,color-mix(in srgb,var(--ink) 5%,transparent) 59px)}.metric-chart span{flex:1;height:calc(var(--bar) * 100%);border-radius:6px 6px 0 0;background:color-mix(in srgb,var(--accent) 75%,#b9d4ff)}.metric-chart span:last-child{background:var(--accent)}.metric-legend{display:flex;justify-content:space-between;margin-top:.65rem;font-size:.58rem;color:var(--muted)}
+  .outcomes{display:grid;grid-template-columns:repeat(3,1fr);gap:1.75rem;margin-top:2rem}.outcomes h3{margin:0 0 .5rem;font-size:.76rem}.outcomes p{margin:0;font-size:.69rem;line-height:1.2rem;color:var(--muted)}
+  .next{display:flex;justify-content:space-between;gap:1rem;border-top:1px solid var(--line);margin-top:4rem;padding:1.5rem 0 2rem}.next a{font-size:.78rem;color:var(--muted);text-decoration:none}
+  @media(max-width:1100px){.case-layout{display:block;width:min(48rem,calc(100% - 48px))}.side-nav{display:none}}
+  @media(max-width:700px){
+    .case-layout{width:min(100% - 28px,48rem)}.story section{padding-top:3.75rem}.impact-preview,.outcomes{grid-template-columns:1fr;gap:1.25rem}.impact-preview div+div{padding-top:1.1rem;border-top:1px solid var(--visual-border)}
+    .loop-track{display:grid;grid-template-columns:1fr auto 1fr}.loop-track>i:nth-of-type(2),.loop-track>i:nth-of-type(4){visibility:hidden}.prototype-path{grid-template-columns:1fr}.prototype-path>i{transform:rotate(90deg);text-align:center}.review-loop{grid-template-columns:1fr}.review-loop>i{transform:rotate(90deg);text-align:center}.review-loop strong{max-width:none}
+    .solution-tabs{grid-template-columns:1fr}.solution-copy{grid-template-columns:1fr;gap:.5rem}.feature-visual{height:330px}.hero-visual{padding:.7rem}.examples-visual{grid-template-columns:85px 1fr;padding:.75rem}.comparison{grid-template-columns:1fr}.metric-chart{height:220px;padding-inline:.8rem;gap:.55rem}
+  }
 </style>
