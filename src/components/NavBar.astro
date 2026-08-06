@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import SiteLogo from "../assets/Michelle-Logo-2026.svg";
 import HamburgerClosed from "../assets/hamburger-closed.png";
 import HamburgerOpen from "../assets/hamburger-open.png";
@@ -18,7 +17,7 @@ const workIsActive = projects.some(({ href }) => path === href);
 <header class="nav-wrap">
   <nav class="shell nav" aria-label="Main navigation">
     <a class="brand" href="/" aria-label="Michelle Tenin, home">
-      <Image src={SiteLogo} alt="" width={44} height={19} />
+      <img src={SiteLogo.src} alt="" width="44" height="19" />
     </a>
     <button
       class="menu-button"
@@ -27,8 +26,8 @@ const workIsActive = projects.some(({ href }) => path === href);
       aria-expanded="false"
       aria-controls="nav-links"
     >
-      <Image class="menu-icon closed-icon" src={HamburgerClosed} alt="" width={20} height={20} />
-      <Image class="menu-icon open-icon" src={HamburgerOpen} alt="" width={20} height={20} />
+      <img class="menu-icon closed-icon" src={HamburgerClosed.src} alt="" width="20" height="20" />
+      <img class="menu-icon open-icon" src={HamburgerOpen.src} alt="" width="20" height="20" />
     </button>
     <div id="nav-links" class="nav-links">
       <div class="work-dropdown">
