@@ -1,6 +1,7 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import CSHero from "./CSHero.astro";
+import CaseSideNav from "./CaseSideNav.astro";
 
 const { project } = Astro.props;
 const isStructuredLayout =
@@ -24,21 +25,13 @@ const defaultSections = isStructuredLayout
       { id: "reflection", label: "Reflection" },
     ];
 const sections = project.sections ?? defaultSections;
-const sectionIds = JSON.stringify(sections.map((section) => section.id));
 const sectionLabel = (id, fallback) =>
   sections.find((section) => section.id === id)?.label ?? fallback;
 const processId = isStructuredLayout ? "process" : "approach";
 ---
 <MainLayout title={`${project.title} — Michelle Tenin`}>
   <div class={`case-layout shell ${project.kind}`}>
-    <aside class="side-nav" aria-label="Case study sections">
-      <div class="side-track" aria-hidden="true"><span></span></div>
-      <ol data-case-nav data-sections={sectionIds}>
-        {sections.map((section) => (
-          <li><a href={`#${section.id}`}>{section.label}</a></li>
-        ))}
-      </ol>
-    </aside>
+    <CaseSideNav {sections} />
 
     <div class="case-column">
       <CSHero {...project} />
@@ -181,9 +174,9 @@ const processId = isStructuredLayout ? "process" : "approach";
           )}
         </section>
 
-        <nav class="next">
-          <a href="/">← All projects</a>
-          <a href={project.nextHref}>Next: {project.next} →</a>
+        <nav class="next" aria-label="Previous and next case studies">
+          <a href={project.prevHref}>← {project.prev}</a>
+          <a href={project.nextHref}>{project.next} →</a>
         </nav>
       </article>
     </div>
@@ -233,11 +226,6 @@ const processId = isStructuredLayout ? "process" : "approach";
 <style>
   .case-layout{--visual-bg:var(--color-base-200);--visual-border:var(--line);position:relative;display:grid;grid-template-columns:180px minmax(0,48rem) 180px;justify-content:center;gap:2.5rem}
   .case-column{grid-column:2;min-width:0}
-  .side-nav{position:sticky;top:9rem;align-self:start;display:flex;gap:.75rem;padding-top:1rem}
-  .side-track{position:relative;width:1.5px;background:color-mix(in srgb,var(--ink) 8%,transparent);border-radius:2px}
-  .side-track span{position:absolute;top:0;left:0;width:1.5px;height:12px;background:var(--ink);border-radius:2px;transition:transform .25s ease}
-  .side-nav ol{list-style:none;margin:0;padding:0}.side-nav li{margin:0}.side-nav a{display:block;padding:2px 0;font-size:.75rem;line-height:1.45rem;text-decoration:none;color:color-mix(in srgb,var(--ink) 32%,transparent);transition:color .2s}
-  .side-nav a[aria-current]{color:var(--ink);font-weight:650}
   .story section{scroll-margin-top:2rem;padding:5rem 0 0}
   .section-heading{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem;font-size:.82rem;font-weight:650;color:color-mix(in srgb,var(--ink) 78%,transparent)}
   .section-heading i{display:block;flex:1;height:1px;background:color-mix(in srgb,var(--ink) 8%,transparent)}
@@ -273,7 +261,6 @@ const processId = isStructuredLayout ? "process" : "approach";
   .next{display:flex;justify-content:space-between;gap:1rem;border-top:1px solid color-mix(in srgb,var(--ink) 8%,transparent);margin-top:4rem;padding:1.5rem 0 2rem}.next a{font-size:.78rem;color:var(--muted);text-decoration:none}
   @media(max-width:1100px){
     .case-layout{display:block;width:min(48rem,calc(100% - 48px))}
-    .side-nav{display:none}
   }
   @media(max-width:640px){
     .case-layout{width:min(100% - 28px,48rem)}.principles,.media-grid,.persona-grid,.process-notes{grid-template-columns:1fr}.story section{padding-top:3.75rem}.outcome{padding:1.5rem}.challenge-media,.solution-media{padding:1rem}

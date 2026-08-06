@@ -6,11 +6,10 @@ import ProjectThumbnail from "./ProjectThumbnail.astro";
 import { assets } from "../data/assets";
 const path = Astro.url.pathname;
 const projects = [
-  { href: "/unified-data-workspace", title: "Data Platform Hub", description: "SW Infra @ Nvidia", kind: "dataworkspace", image: undefined },
-  { href: "/aurora", title: "Cancer Survivorship Support", description: "Design for America @ UW", kind: "aurora", image: assets.home.auroraThumbnail },
-  { href: "/tecan", title: "Digital Visual Factory", description: "Medtech manufacturing @ Tecan", kind: "tecan", image: assets.home.tecanThumbnail },
-  { href: "/teststudio", title: "Behavioral Testing", description: "Autonomous Vehicles @ Nvidia", kind: "teststudio", image: undefined },
-  { href: "/mlloop", title: "Closing the ML Data Loop", description: "Autonomous driving · ML systems", kind: "mlloop", image: assets.home.mlLoopThumbnail },
+  { href: "/unified-data-workspace", title: "Data Platform Hub", description: "SW Infra / NVIDIA", kind: "dataworkspace", image: assets.home.dataPlatformHubThumbnail },
+  { href: "/mlloop", title: "Closing the ML Data Loop", description: "AV MLOps / NVIDIA", kind: "mlloop", image: assets.home.mlLoopThumbnail },
+  { href: "/aurora", title: "Cancer Survivorship Support", description: "DFA / University of Washington", kind: "aurora", image: assets.home.auroraThumbnail },
+  { href: "/tecan", title: "Digital Visual Factory", description: "Medtech Manufacturing / Tecan", kind: "tecan", image: assets.home.tecanThumbnail },
 ];
 const workIsActive = projects.some(({ href }) => path === href);
 ---

@@ -2,7 +2,7 @@
 import CaseStudy from "../components/CaseStudy.astro";
 import { assets } from "../data/assets";
 const project = {
-  number:"02", title:"Tecan", headline:"A visual factory for Tecan’s production line.", breadcrumb:"Digital Visual Factory / Medtech manufacturing @ Tecan", kind:"tecan", cover:assets.tecan.cover, layout:"tecan", kicker:"Research · Usability testing · IA", role:"Product designer", duration:"Oct 2019—Oct 2020",
+  number:"02", title:"Tecan", headline:"A visual factory for Tecan’s production line.", breadcrumb:"Medtech Manufacturing / Tecan", kind:"tecan", cover:assets.tecan.cover, layout:"tecan", kicker:"Research · Usability testing · IA", role:"Product designer", duration:"Oct 2019—Oct 2020",
   sections:[
     { id:"overview", label:"Context" },
     { id:"challenge", label:"Production gap" },
@@ -53,7 +53,8 @@ const project = {
     "The project reinforced the importance of proximity to users, adaptability when access is limited, and visual clarity when instructions shape physical work.",
     "Supporting a company that equipped medical labs during COVID-19 underscored how thoughtful systems design can create tangible impact.",
   ],
-  next:"Behavioral Testing", nextHref:"/teststudio"
+  prev:"Cancer Survivorship Support", prevHref:"/aurora",
+  next:"Data Platform Hub", nextHref:"/unified-data-workspace"
 };
 ---
 <CaseStudy {project} />

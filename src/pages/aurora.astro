@@ -2,7 +2,7 @@
 import CaseStudy from "../components/CaseStudy.astro";
 import { assets } from "../data/assets";
 const project = {
-  number:"01", title:"Aurora", headline:"A support system for life after ovarian cancer treatment.", breadcrumb:"Cancer Survivorship Support / Design for America @ UW", kind:"aurora", cover:assets.aurora.cover, layout:"aurora", kicker:"UX design · Systems thinking", role:"Student designer", duration:"Oct 2018—May 2019",
+  number:"01", title:"Aurora", headline:"A support system for life after ovarian cancer treatment.", breadcrumb:"DFA / University of Washington", kind:"aurora", cover:assets.aurora.cover, layout:"aurora", kicker:"UX design · Systems thinking", role:"Student designer", duration:"Oct 2018—May 2019",
   sections:[
     { id:"overview", label:"Context" },
     { id:"challenge", label:"Care cliff" },
@@ -30,7 +30,8 @@ const project = {
     "The work concluded with a presentation of the research, system concept, and prototype at Artefact design studio in Seattle, Washington.",
   ],
   reflectionMedia:assets.aurora.reflection,
-  next:"Tecan", nextHref:"/tecan"
+  prev:"Closing the ML Data Loop", prevHref:"/mlloop",
+  next:"Digital Visual Factory", nextHref:"/tecan"
 };
 ---
 <CaseStudy {project} />

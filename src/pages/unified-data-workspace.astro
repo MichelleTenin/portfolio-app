@@ -1,12 +1,13 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import CSHero from "../components/CSHero.astro";
+import CaseSideNav from "../components/CaseSideNav.astro";
 
 const project = {
   number: "05",
   title: "Unified Data Workspace",
   headline: "I turned a request for a unified hub into an evidence-backed platform strategy.",
-  breadcrumb: "Data Platform Hub / SW Infra @ Nvidia",
+  breadcrumb: "SW Infra / NVIDIA",
   kind: "dataworkspace",
   showVisual: false,
   role: "Product designer & design engineer",
@@ -25,7 +26,6 @@ const sections = [
   { id: "outcome", label: "Outcome" },
 ];
 
-const sectionIds = JSON.stringify(sections.map((section) => section.id));
 
 const personas = [
   ["Data analyst / engineer", "Engineers who build and maintain data pipelines and semantic layers"],
@@ -65,14 +65,7 @@ const capabilityGroups = [
 
 <MainLayout title="Unified Data Workspace — Michelle Tenin">
   <div class="case-layout shell">
-    <aside class="side-nav" aria-label="Case study sections">
-      <div class="side-track" aria-hidden="true"><span></span></div>
-      <ol data-case-nav data-sections={sectionIds}>
-        {sections.map((section) => (
-          <li><a href={`#${section.id}`}>{section.label}</a></li>
-        ))}
-      </ol>
-    </aside>
+    <CaseSideNav {sections} />
 
     <div class="case-column">
       <CSHero {...project} />
@@ -345,9 +338,9 @@ const capabilityGroups = [
           </p>
         </section>
 
-        <nav class="next">
-          <a href="/">← All projects</a>
-          <a href="/aurora">Next: Aurora →</a>
+        <nav class="next" aria-label="Previous and next case studies">
+          <a href="/tecan">← Digital Visual Factory</a>
+          <a href="/mlloop">Closing the ML Data Loop →</a>
         </nav>
       </article>
     </div>
@@ -392,12 +385,6 @@ const capabilityGroups = [
 <style>
   .case-layout{--workspace-accent:#fc911e;--visual-bg:var(--color-base-200);--visual-border:var(--line);position:relative;display:grid;grid-template-columns:180px minmax(0,48rem) 180px;justify-content:center;gap:2.5rem}
   .case-column{grid-column:2;min-width:0}
-  .side-nav{position:sticky;top:9rem;align-self:start;display:flex;gap:.75rem;padding-top:1rem}
-  .side-track{position:relative;width:1.5px;background:color-mix(in srgb,var(--ink) 8%,transparent);border-radius:2px}
-  .side-track span{position:absolute;top:0;left:0;width:1.5px;height:12px;background:var(--ink);border-radius:2px;transition:transform .25s ease}
-  .side-nav ol{list-style:none;margin:0;padding:0}.side-nav li{margin:0}
-  .side-nav a{display:block;padding:2px 0;font-size:.75rem;line-height:1.45rem;text-decoration:none;color:color-mix(in srgb,var(--ink) 32%,transparent);transition:color .2s}
-  .side-nav a[aria-current]{color:var(--ink);font-weight:650}
   .story section{scroll-margin-top:2rem;padding:5rem 0 0}
   .section-heading{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem;font-size:.82rem;font-weight:650;color:color-mix(in srgb,var(--ink) 72%,transparent)}
   .section-heading i{display:block;flex:1;height:1px;background:color-mix(in srgb,var(--ink) 8%,transparent)}
@@ -446,7 +433,7 @@ const capabilityGroups = [
   .outcomes h3{margin:0 0 .5rem}.outcomes p{margin:0;font-size:.69rem;line-height:1.2rem;color:var(--muted)}
   .project-status{display:block;width:100%;box-sizing:border-box;margin-top:2.5rem!important;font-size:.75rem!important;line-height:1.25rem!important;color:var(--muted)}.project-status strong{color:var(--ink)}
   .next{display:flex;justify-content:space-between;gap:1rem;border-top:1px solid var(--line);margin-top:4rem;padding:1.5rem 0 2rem}.next a{font-size:.78rem;color:var(--muted);text-decoration:none}
-  @media(max-width:1100px){.case-layout{display:block;width:min(48rem,calc(100% - 48px))}.side-nav{display:none}}
+  @media(max-width:1100px){.case-layout{display:block;width:min(48rem,calc(100% - 48px))}}
   @media(max-width:700px){
     .case-layout{width:min(100% - 28px,48rem)}.story section{padding-top:3.75rem}
     .charts,.strategy-columns,.outcomes{grid-template-columns:1fr}.persona-list{grid-template-columns:1fr}

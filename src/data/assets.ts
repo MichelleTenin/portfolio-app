@@ -5,6 +5,7 @@ export const assets = {
     auroraThumbnail: "/assets/thumbnails/aurora-thumbnail.png",
     tecanThumbnail: "/assets/thumbnails/tecan-thumbnail.png",
     mlLoopThumbnail: "/assets/mlloop/scenario-workspace-hero.png",
+    dataPlatformHubThumbnail: "/assets/thumbnails/data-platform-hub-thumbnail.png",
     contourOne: "/assets/framer/home/JvD3j2vtI3LIFJOEemhBXGdk.avif",
     contourTwo: "/assets/framer/home/mENJLcN1AqCTYHCft70MEpaXQY.avif",
   },
