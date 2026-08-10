@@ -3,22 +3,50 @@ import MainLayout from "../layouts/MainLayout.astro";
 import ProjectThumbnail from "../components/ProjectThumbnail.astro";
 import { assets } from "../data/assets";
 const projects = [
-  { href:"/unified-data-workspace", kind:"dataworkspace", image:assets.home.dataPlatformHubThumbnail, title:"Data Platform Hub", descriptor:"SW Infra / NVIDIA", copy:"Defining the problem space and product strategy for a single place to navigate, understand, and interact with complex structured data.", class:"featured" },
-  { href:"/mlloop", kind:"mlloop", image:assets.home.mlLoopThumbnail, title:"Closing the ML Data Loop", descriptor:"AV MLOps / NVIDIA", copy:"Turning isolated model failures into a trackable, scenario-centered data improvement lifecycle.", class:"featured" },
-  { href:"/aurora", kind:"aurora", image:assets.home.auroraThumbnail, title:"Cancer Survivorship Support", descriptor:"DFA / University of Washington", copy:"Bridging the gap between treatment and survivorship through a compassionate, hospital-based support system.", class:"supporting" },
-  { href:"/tecan", kind:"tecan", image:assets.home.tecanThumbnail, title:"Digital Visual Factory", descriptor:"Medtech Manufacturing / Tecan", copy:"Transforming paper-based assembly instructions into a clear, traceable production workflow.", class:"supporting" }
+  { href:"/unified-data-workspace", kind:"dataworkspace", image:assets.home.dataPlatformHubThumbnail, title:"Data Platform Hub", descriptor:"SW Infra / NVIDIA", tags:["Product strategy", "Data-driven"], readTime:"5 min read", copy:"Defining the problem space and product strategy for a single place to navigate, understand, and interact with complex structured data.", class:"featured" },
+  { href:"/mlloop", kind:"mlloop", image:assets.home.mlLoopThumbnail, title:"Closing the ML Data Loop", descriptor:"AV MLOps / NVIDIA", tags:["Systems design", "Production code contributor"], readTime:"5 min read", copy:"Turning isolated model failures into a trackable, scenario-centered data improvement lifecycle.", class:"featured" },
+  { href:"/teststudio", kind:"teststudio", title:"Behavioral Testing Jobs", descriptor:"AV Testing / NVIDIA", tags:["Interaction design", "Production code contributor"], readTime:"2 min read", copy:"Turning an evolving API into a stable interface for submitting, monitoring, and debugging offline behavioral-testing jobs.", class:"supporting", locked:true },
+  { href:"/aurora", kind:"aurora", image:assets.home.auroraThumbnail, title:"Cancer Survivorship Support", descriptor:"DFA / University of Washington", tags:["UX research", "Service design"], readTime:"3 min read", copy:"Bridging the gap between treatment and survivorship through a compassionate, hospital-based support system.", class:"supporting" },
+  { href:"/tecan", kind:"tecan", image:assets.home.tecanThumbnail, title:"Digital Visual Factory", descriptor:"Medtech Manufacturing / Tecan", tags:["Workflow design", "Production code contributor"], readTime:"3 min read", copy:"Transforming paper-based assembly instructions into a clear, traceable production workflow.", class:"supporting" }
 ];
 ---
 <MainLayout>
   <section class="shell landing-hero">
-    <h1 class="display">Clarity starts in the weeds.</h1>
-    <p>I’m Michelle, a product designer who likes to work alongside engineers and users to understand complex systems from the inside out—jamming, refining, and simplifying until the result feels clear and considered.</p>
+    <h1 class="display">I design tools for people doing complex technical work.</h1>
+    <p>I’m Michelle, a product designer working across product strategy and front-end engineering. I partner with engineers and domain experts to turn complex data, infrastructure, and developer workflows into clear, useful products.</p>
   </section>
 
   <section id="work" class="work">
-    <div class="section-label shell"><span>Selected work</span><i></i><span>2018—Now</span></div>
-    <div class="project-grid">
-      {projects.map((p) => (
+    <div class="section-label shell">
+      <span>Selected work</span>
+      <i></i>
+      <span class="work-range">2018—Now</span>
+      <div class="rail-controls" aria-label="Case study navigation">
+        <button type="button" data-rail-direction="previous" aria-label="Previous case study">←</button>
+        <button type="button" data-rail-direction="next" aria-label="Next case study">→</button>
+      </div>
+    </div>
+    <div class="project-grid" data-project-rail aria-label="Case studies">
+      {projects.map((p) => p.locked ? (
+        <article class={`project project-locked ${p.class}`} aria-label={`${p.title}, coming soon`}>
+          <div class="thumbnail-wrap coming-soon-card" aria-hidden="true">
+            <span class="status-badge">Coming soon</span>
+          </div>
+          <div class="project-meta">
+            <h2>{p.title}</h2>
+          </div>
+          <div class="project-detail">
+            <div class="project-signals">
+              <div class="project-tags">{p.tags.map((tag) => <span>{tag}</span>)}</div>
+              <span class="reading-time">{p.readTime}</span>
+            </div>
+            <div class="project-copy">
+              <p class="project-summary">{p.copy}</p>
+              <p class="project-company">{p.descriptor}</p>
+            </div>
+          </div>
+        </article>
+      ) : (
         <a href={p.href} class={`project ${p.class}`}>
           <div class="thumbnail-wrap">
             <ProjectThumbnail
@@ -30,41 +58,154 @@ const projects = [
           </div>
           <div class="project-meta">
             <h2>{p.title}<span class="title-arrow" aria-hidden="true">↗</span></h2>
-            <p>{p.descriptor}</p>
           </div>
-          <p class="mobile-summary">{p.copy}</p>
+          <div class="project-detail">
+            <div class="project-signals">
+              <div class="project-tags">{p.tags.map((tag) => <span>{tag}</span>)}</div>
+              <span class="reading-time">{p.readTime}</span>
+            </div>
+            <div class="project-copy">
+              <p class="project-summary">{p.copy}</p>
+              <p class="project-company">{p.descriptor}</p>
+            </div>
+          </div>
         </a>
       ))}
     </div>
   </section>
 </MainLayout>
+<script>
+  const rail = document.querySelector<HTMLElement>("[data-project-rail]");
+  const previous = document.querySelector<HTMLButtonElement>("[data-rail-direction='previous']");
+  const next = document.querySelector<HTMLButtonElement>("[data-rail-direction='next']");
+
+  if (rail && previous && next) {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileLayout = window.matchMedia("(max-width: 720px)");
+    let railIsVisible = false;
+    let railIsHovered = false;
+    let railHasFocus = false;
+    let interactionPaused = false;
+    let resumeTimer = 0;
+    let animationFrame = 0;
+    let previousTime = 0;
+
+    const updateControls = () => {
+      const maxScroll = rail.scrollWidth - rail.clientWidth;
+      previous.disabled = rail.scrollLeft <= 2;
+      next.disabled = rail.scrollLeft >= maxScroll - 2;
+    };
+
+    const pauseForInteraction = (duration = 1800) => {
+      interactionPaused = true;
+      window.clearTimeout(resumeTimer);
+      resumeTimer = window.setTimeout(() => {
+        interactionPaused = false;
+      }, duration);
+    };
+
+    const moveRail = (direction: number) => {
+      const card = rail.querySelector<HTMLElement>(".project");
+      const gap = parseFloat(getComputedStyle(rail).columnGap || getComputedStyle(rail).gap) || 20;
+      const distance = card ? card.getBoundingClientRect().width + gap : rail.clientWidth * 0.8;
+      pauseForInteraction(2200);
+      rail.scrollBy({ left: direction * distance, behavior: "smooth" });
+    };
+
+    const animateRail = (time: number) => {
+      const elapsed = previousTime ? Math.min(time - previousTime, 50) : 0;
+      previousTime = time;
+      const maxScroll = rail.scrollWidth - rail.clientWidth;
+      const shouldMove = railIsVisible
+        && !railIsHovered
+        && !railHasFocus
+        && !interactionPaused
+        && !reducedMotion.matches
+        && !mobileLayout.matches
+        && rail.scrollLeft < maxScroll - 1;
+
+      if (shouldMove) rail.scrollLeft += elapsed * 0.028;
+      animationFrame = window.requestAnimationFrame(animateRail);
+    };
+
+    const visibilityObserver = new IntersectionObserver(([entry]) => {
+      railIsVisible = entry.isIntersecting;
+      previousTime = 0;
+    }, { threshold: 0.08 });
+
+    previous.addEventListener("click", () => moveRail(-1));
+    next.addEventListener("click", () => moveRail(1));
+    rail.addEventListener("mouseenter", () => { railIsHovered = true; });
+    rail.addEventListener("mouseleave", () => { railIsHovered = false; });
+    rail.addEventListener("focusin", () => { railHasFocus = true; });
+    rail.addEventListener("focusout", () => { railHasFocus = rail.contains(document.activeElement); });
+    rail.addEventListener("pointerdown", () => pauseForInteraction(2600), { passive: true });
+    rail.addEventListener("wheel", () => pauseForInteraction(2200), { passive: true });
+    rail.addEventListener("scroll", updateControls, { passive: true });
+    window.addEventListener("resize", () => {
+      if (mobileLayout.matches) rail.scrollLeft = 0;
+      updateControls();
+    });
+    visibilityObserver.observe(rail);
+    animationFrame = window.requestAnimationFrame(animateRail);
+    updateControls();
+
+    document.addEventListener("astro:before-swap", () => {
+      visibilityObserver.disconnect();
+      window.cancelAnimationFrame(animationFrame);
+      window.clearTimeout(resumeTimer);
+    }, { once: true });
+  }
+</script>
 <style>
   .landing-hero{display:block;padding:4.5rem 0 6rem;max-width:1120px}
-  .landing-hero h1{font-size:clamp(2.4rem,4vw,3.75rem);line-height:1.1;max-width:none;margin:0 0 1.25rem;white-space:nowrap}
-  .landing-hero>p{font-size:1rem;line-height:1.55rem;margin:0;max-width:660px}
+  .landing-hero h1{font-size:clamp(2.4rem,4vw,3.75rem);line-height:1.1;max-width:920px;margin:0 0 1.25rem;color:#171512}
+  .landing-hero>p{font-size:1rem;line-height:1.55rem;margin:0;max-width:720px}
   .section-label{display:flex;align-items:center;gap:1rem;font-size:.76rem;font-weight:650;margin-bottom:2rem}.section-label i{height:1px;background:var(--line);flex:1}
-  .work{width:min(1280px,calc(100% - 32px));margin-inline:auto}
-  .section-label{width:min(1120px,calc(100% - 32px))}
-  .project-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3.25rem 1.25rem}
-  .project{position:relative;text-decoration:none}
-  .thumbnail-wrap{position:relative;overflow:hidden;border-radius:10px}
-  .project-meta{display:flex;justify-content:space-between;gap:.75rem;align-items:center;padding-top:.75rem}
-  .project-meta h2{margin:0;font:650 .82rem/1.2 var(--font-sans,Arial,sans-serif);letter-spacing:0}
-  .project-meta p{margin:0;color:var(--muted);font-size:.72rem;line-height:1.05rem;text-align:right;opacity:0;transform:translateY(3px);transition:opacity .18s ease,transform .18s ease}
-  .project:hover .project-meta p,.project:focus-visible .project-meta p{opacity:1;transform:translateY(0)}
+  .work{--rail-pad:max(32px,calc((100vw - 1120px) / 2));width:100%;overflow:hidden}
+  .rail-controls{display:flex;gap:.35rem;margin-left:.25rem}
+  .rail-controls button{width:32px;height:32px;display:grid;place-items:center;padding:0;border:1px solid color-mix(in srgb,var(--ink) 12%,transparent);border-radius:999px;background:var(--paper);color:#171512;font:500 .9rem/1 var(--font-sans);cursor:pointer;transition:background-color .15s ease,border-color .15s ease,transform .15s ease,opacity .15s ease}
+  .rail-controls button:hover:not(:disabled){border-color:color-mix(in srgb,var(--ink) 24%,transparent);background:var(--color-base-200);transform:translateY(-1px)}
+  .rail-controls button:disabled{cursor:default;opacity:.3}
+  .project-grid{display:flex;gap:1.25rem;overflow-x:auto;overscroll-behavior-inline:contain;padding:0 var(--rail-pad) 1.4rem;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .project-grid::-webkit-scrollbar{display:none}
+  .project{position:relative;flex:0 0 min(44vw,500px);text-decoration:none}
+  .project-locked{cursor:default}
+  .thumbnail-wrap{position:relative;overflow:hidden;border-radius:10px;perspective:1200px}
+  .coming-soon-card{aspect-ratio:4/3;display:grid;place-items:center;background:var(--color-base-200);border:1px solid color-mix(in srgb,var(--ink) 8%,transparent);box-shadow:inset 0 0 0 .5px color-mix(in srgb,white 45%,transparent)}
+  .status-badge{padding:.4rem .65rem;border:1px solid color-mix(in srgb,var(--ink) 10%,transparent);border-radius:999px;background:var(--color-base-100);box-shadow:0 5px 18px color-mix(in srgb,var(--ink) 7%,transparent);font-size:.62rem;font-weight:650;color:color-mix(in srgb,var(--ink) 66%,transparent)}
+  .project-meta{padding-top:.75rem}
+  .project-meta h2{margin:0;color:#171512;font:650 .82rem/1.2 var(--font-sans,Arial,sans-serif);letter-spacing:0}
   .title-arrow{display:inline-block;margin-left:.25rem;font-size:.82em;font-weight:500;transition:transform .18s ease}
   .project:hover .title-arrow,.project:focus-visible .title-arrow{transform:translate(2px,-2px)}
-  .mobile-summary{display:none;margin:.7rem 0 0;font-size:.76rem;line-height:1.3rem;color:var(--muted)}
+  .project-detail{position:relative;min-height:4.15rem;margin-top:.55rem}
+  .project-signals{position:absolute;inset:0 0 auto;display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem}
+  .project-tags{display:flex;flex-wrap:wrap;gap:.35rem;transition:opacity .18s ease,transform .3s cubic-bezier(.22,1,.36,1)}
+  .project-tags span{display:inline-flex;align-items:center;padding:.28rem .5rem;border:1px solid color-mix(in srgb,var(--ink) 8%,transparent);border-radius:999px;background:var(--color-base-200);color:color-mix(in srgb,var(--ink) 46%,transparent);font-size:.61rem;font-weight:600;line-height:1;letter-spacing:.01em}
+  .reading-time{flex:0 0 auto;padding:.28rem 0;color:color-mix(in srgb,var(--ink) 42%,transparent);font-size:.61rem;font-weight:550;line-height:1;white-space:nowrap}
+  .project-copy{position:absolute;top:0;right:5.25rem;left:0;opacity:0;transform:translateY(5px);transition:opacity .22s ease,transform .35s cubic-bezier(.22,1,.36,1)}
+  .project-summary{margin:0;color:var(--muted);font-size:.76rem;line-height:1.25rem}
+  .project-company{margin:.28rem 0 0;color:color-mix(in srgb,var(--ink) 44%,transparent);font-size:.65rem;font-weight:600;line-height:1rem}
+  @media(hover:hover) and (min-width:721px){
+    .project:hover .project-tags,.project:focus-visible .project-tags{opacity:0;transform:translateY(-4px)}
+    .project:hover .project-copy,.project:focus-visible .project-copy{opacity:1;transform:translateY(0)}
+  }
+  .project :global(.thumbnail){transition:transform .5s cubic-bezier(.22,1,.36,1),background-color .25s ease}
+  .project :global(.thumbnail>img),.project :global(.thumbnail>.data-workspace),.project :global(.thumbnail>.testing-workspace),.project :global(.thumbnail>.placeholder){transform:translateZ(0);transition:transform .55s cubic-bezier(.22,1,.36,1)}
   .project:hover :global(.thumbnail){
-    transform:translateY(-3px);
+    transform:translateY(-5px) rotate(-.35deg);
     background-color:var(--color-base-200);
     background-image:url("/assets/thumbnail-hover-bg.png");
     background-position:center;
     background-size:cover;
   }
-  .project.featured :global(.thumbnail){aspect-ratio:4/3;padding:clamp(2rem,4vw,3.5rem)}
-  .project.supporting :global(.thumbnail){aspect-ratio:16/10;padding:clamp(2rem,4vw,3.5rem)}
-  @media(max-width:960px){.work{width:min(100% - 28px,1120px)}.section-label{width:100%}.project-grid{gap:2.75rem 1rem}}
-  @media(max-width:720px){.landing-hero{padding:3rem 0 5rem}.landing-hero h1{font-size:2.7rem;white-space:normal}.project-grid{grid-template-columns:1fr;gap:3rem}.project.featured :global(.thumbnail),.project.supporting :global(.thumbnail){aspect-ratio:4/3}.mobile-summary{display:block}}
-  @media(hover:none){.mobile-summary{display:block}}
+  .project:nth-child(even):hover :global(.thumbnail){transform:translateY(-5px) rotate(.35deg)}
+  .project:not(.project-locked):hover :global(.thumbnail>img),.project:not(.project-locked):hover :global(.thumbnail>.data-workspace),.project:not(.project-locked):hover :global(.thumbnail>.testing-workspace),.project:not(.project-locked):hover :global(.thumbnail>.placeholder),.project:not(.project-locked):focus-visible :global(.thumbnail>img),.project:not(.project-locked):focus-visible :global(.thumbnail>.data-workspace),.project:not(.project-locked):focus-visible :global(.thumbnail>.testing-workspace),.project:not(.project-locked):focus-visible :global(.thumbnail>.placeholder){transform:translate3d(0,-7px,24px) rotate(1deg) scale(1.035)}
+  .project:nth-child(even):not(.project-locked):hover :global(.thumbnail>img),.project:nth-child(even):not(.project-locked):hover :global(.thumbnail>.data-workspace),.project:nth-child(even):not(.project-locked):hover :global(.thumbnail>.testing-workspace),.project:nth-child(even):not(.project-locked):hover :global(.thumbnail>.placeholder){transform:translate3d(0,-7px,24px) rotate(-1deg) scale(1.035)}
+  .project-locked:hover :global(.thumbnail){transform:none;background-image:none;background-color:var(--color-base-200)}
+  .project :global(.thumbnail){aspect-ratio:4/3;padding:clamp(2rem,4vw,3.5rem)}
+  @media(max-width:960px){.work{--rail-pad:28px}.project{flex-basis:min(58vw,500px)}}
+  @media(max-width:720px){.landing-hero{padding:3rem 0 5rem}.landing-hero h1{font-size:2.7rem}.work{--rail-pad:14px;overflow:visible}.section-label{gap:.75rem}.work-range,.rail-controls{display:none}.project-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:2.75rem;overflow:visible;overscroll-behavior:auto;padding:0 var(--rail-pad)}.project{width:100%;min-width:0}.project :global(.thumbnail),.coming-soon-card{aspect-ratio:4/3}.project-detail{min-height:0}.project-signals{position:static}.project-tags,.project:hover .project-tags,.project:focus-visible .project-tags{opacity:1;transform:none}.project-copy{display:none}}
+  @media(hover:none){.project-tags,.project:hover .project-tags,.project:focus-visible .project-tags{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:reduce){.project-grid{scroll-behavior:auto}.project :global(.thumbnail),.project :global(.thumbnail>*){transition:none!important}}
 </style>

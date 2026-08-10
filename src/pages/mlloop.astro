@@ -29,7 +29,7 @@ const sections = [
 const solutionViews = [
   {
     id: "context-view",
-    label: "Metadata views",
+    label: "Customizable views",
     copy: "Data specialists could tailor the metadata shown for a review task, making large datasets easier to scan without forcing every workflow into the same display.",
     visual: "metadata",
   },
@@ -41,7 +41,7 @@ const solutionViews = [
   },
   {
     id: "requests-view",
-    label: "Data requests",
+    label: "Data tracking",
     copy: "Teams could submit and track labeling or data-collection requests from the same workspace.",
     visual: "requests",
   },
@@ -85,9 +85,6 @@ const solutionViews = [
 
           <figure class="system-map-figure">
             <div class="mockup-browser system-map-card">
-              <div class="mockup-browser-toolbar figma-window-toolbar">
-                <div class="figma-tab"><span aria-hidden="true"></span>Data Loop Ecosystem Map</div>
-              </div>
               <div class="figma-document-bar">
                 <span class="figma-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
                 <span class="figma-zoom">100%</span>
@@ -122,7 +119,7 @@ const solutionViews = [
 
         <section id="collaboration">
           <div class="section-heading"><span>Co-design</span><i></i></div>
-          <h2 class="display">Tight feedback loops made the service real.</h2>
+          <h2 class="display">Tight collaboration made the service real.</h2>
           <p>
             The product was shaped alongside the data specialists who would operate it. We reviewed ideas as they emerged—from dataset curation to comparing reference labels with model output—and iterated before the workflows hardened into infrastructure.
           </p>
@@ -140,9 +137,9 @@ const solutionViews = [
 
         <section id="solution">
           <div class="section-heading"><span>Solution</span><i></i></div>
-          <h2 class="display">One workspace, three views of improvement.</h2>
+          <h2 class="display">One workspace for the full improvement loop.</h2>
           <p>
-            The final experience brought curation, operational requests, and evaluation into one scenario-centered workflow. These three capabilities made the loop observable without trying to replace every specialized system around it.
+            The final experience brought curation, operational requests, and evaluation into one scenario-centered workflow. The highlights below show three of the most useful interface capabilities without trying to replace every specialized system around them.
           </p>
 
           <div class="solution-switcher">
@@ -192,7 +189,7 @@ const solutionViews = [
 
         <section id="impact">
           <div class="section-heading"><span>Impact</span><i></i></div>
-          <h2 class="display">Scenario tracking became a shared operating layer.</h2>
+          <h2 class="display">Scenario tracking became a shared foundation.</h2>
           <p>
             By the end of the project, the organization had moved from no scenario-centered tracking to a central workspace spanning approximately 30 models and thousands of scenarios.
           </p>
@@ -278,10 +275,6 @@ const solutionViews = [
   .system-map-figure{margin:2rem 0}
   .system-map-card{overflow:hidden;border:1px solid #3f3f3f;border-radius:var(--radius-box);background:#202020;box-shadow:none}
   .system-map-card.mockup-browser{padding:0!important}
-  .figma-window-toolbar{position:relative;display:flex!important;min-height:42px;margin:0!important;padding:0!important;background:#202020;border-bottom:1px solid #3a3a3a}
-  .figma-window-toolbar:before{position:absolute;top:21px;left:.85rem;height:.75rem!important;margin:0!important;transform:translateY(-50%)}
-  .figma-tab{display:flex;align-items:center;gap:.5rem;min-width:190px;height:42px;margin:0 0 0 3.35rem;padding:0 .8rem;border-radius:0;background:#2c2c2c;color:#d8d8d8;font-size:.61rem}
-  .figma-tab>span{width:7px;height:7px;border-radius:50%;background:#777}
   .figma-document-bar{position:relative;display:flex;align-items:center;justify-content:space-between;min-height:38px;margin:0;padding:0 .85rem;background:#2c2c2c;color:#f1f1f1;border-bottom:1px solid #444}
   .figma-zoom{justify-self:end;font-size:.56rem;color:#b8b8b8}
   .figma-mark{display:grid;grid-template-columns:repeat(2,5px);grid-template-rows:repeat(3,5px);width:10px;height:15px}.figma-mark i{display:block}.figma-mark i:nth-child(1){grid-column:1;grid-row:1;background:#f24e1e;border-radius:3px 0 0 3px}.figma-mark i:nth-child(2){grid-column:2;grid-row:1;background:#ff7262;border-radius:0 3px 3px 0}.figma-mark i:nth-child(3){grid-column:1;grid-row:2;background:#a259ff;border-radius:3px 0 0 3px}.figma-mark i:nth-child(4){grid-column:2;grid-row:2;background:#1abcfe;border-radius:50%}.figma-mark i:nth-child(5){grid-column:1;grid-row:3;background:#0acf83;border-radius:3px 0 3px 3px}
@@ -308,7 +301,7 @@ const solutionViews = [
   @media(max-width:1100px){.case-layout{display:block;width:min(48rem,calc(100% - 48px))}}
   @media(max-width:700px){
     .case-layout{width:min(100% - 28px,48rem)}.story section{padding-top:3.75rem}.impact-preview,.outcomes{grid-template-columns:1fr;gap:1.25rem}.impact-preview div+div{padding-top:1.1rem;border-top:1px solid var(--visual-border)}
-    .prototype-path{grid-template-columns:1fr}.prototype-path>i{transform:rotate(90deg);text-align:center}.figma-tab{min-width:150px;margin-left:3rem;padding-inline:.55rem}.figma-document-bar{min-height:34px}.feedback-card{padding:.85rem}
+    .prototype-path{grid-template-columns:1fr}.prototype-path>i{transform:rotate(90deg);text-align:center}.figma-document-bar{min-height:34px}.feedback-card{padding:.85rem}
     .solution-tabs{--tab-p:.55rem}.solution-tabs.tabs-lift>input.tab{min-height:50px;height:50px;font-size:.61rem}.solution-panel{padding:.85rem}.feature-visual{height:330px}
   }
 </style>
