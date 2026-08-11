@@ -1,17 +1,235 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
+import CSHero from "../components/CSHero.astro";
+import CaseSideNav from "../components/CaseSideNav.astro";
+
+const project = {
+  title: "Behavioral Testing Jobs",
+  headline: "I turned an evolving API into a stable interface for behavioral testing jobs.",
+  breadcrumb: "AV Testing / NVIDIA",
+  role: "Product designer & prototype engineer",
+  duration: "Timeline forthcoming",
+  showVisual: false,
+  excerpt:
+    "With the platform and its API still taking shape, I designed the CLI workflow and built a functional single-page application that became the shared contract for submitting, monitoring, and debugging offline behavioral-testing jobs.",
+};
+
+const sections = [
+  { id: "context", label: "Starting point" },
+  { id: "contract", label: "Prototype as contract" },
+  { id: "decision", label: "Key design decision" },
+  { id: "impact", label: "Impact" },
+  { id: "reflection", label: "Reflection" },
+];
+
+const diagrams = {
+  context: String.raw`
+┌──────────────┐     ┌──────────────┐     ┌────────────────────┐
+│ Evolving API │  →  │ CLI workflow │  →  │ Shared UI contract │
+└──────────────┘     └──────────────┘     └────────────────────┘
+       engineering model      user language       visible behavior`,
+  prototype: String.raw`
+┌────────────────── BEHAVIORAL TESTING SPA ──────────────────┐
+│                                                            │
+│  HTML + CSS       Internal web components       Alpine.js  │
+│  structure        production patterns           interaction │
+│                                                            │
+│  [ Submit job ]  →  [ Follow status ]  →  [ Inspect error ]│
+└────────────────────────────────────────────────────────────┘`,
+  accordion: String.raw`
+EARLY CONCEPT
+
+▾ Suite A
+  ├─ execution 01  passed
+  └─ execution 02  failed
+▸ Suite B
+▸ Suite C
+
+↳ One request per expanded suite`,
+  refined: String.raw`
+REFINED MODEL
+
+[ Suite A ][ Suite B ][ Suite C ]
+              ↓ selected scope
+
+[ Status: failed ][ + Add filter ]
+┌─────────────────────────────┐
+│ One canonical results table │
+└─────────────────────────────┘`,
+  impact: String.raw`
+JOB 0421                         STATUS: COMPLETED WITH ERRORS
+
+Suites triggered     08          Passed executions       164
+Executions            172         Failed executions        08
+
+[ View failed executions ]       [ Inspect error details ]`,
+};
 ---
-<MainLayout title="Behavioral Testing — Michelle Tenin">
-  <section class="shell placeholder">
-    <a href="/#work">← All work</a>
-    <p>Behavioral Testing / Autonomous Vehicles @ Nvidia</p>
-    <h1 class="display">Case study coming soon.</h1>
-  </section>
+
+<MainLayout title="Behavioral Testing Jobs — Michelle Tenin">
+  <div class="case-layout shell">
+    <CaseSideNav {sections} />
+
+    <div class="case-column">
+      <CSHero {...project} />
+
+      <article class="story">
+        <section id="context">
+          <div class="section-heading"><span>Starting point</span><i></i></div>
+          <h2 class="display">The system was taking shape faster than its interface.</h2>
+          <p>
+            The offline behavioral-testing platform was being built from the ground up. Its API and domain model were still undergoing engineering churn, while the people submitting and debugging jobs needed a dependable way to understand the system.
+          </p>
+          <p>
+            I began with the CLI workflow, using it to work through the system’s core vocabulary and required inputs. But the CLI alone could not make job structure, progress, and errors sufficiently visible. Users and engineers needed something concrete that represented the experience as a whole.
+          </p>
+
+          <figure class="placeholder-figure">
+            <div class="ascii-card"><pre>{diagrams.context}</pre></div>
+            <figcaption>Placeholder visual: the interface translated an evolving engineering model into visible user behavior.</figcaption>
+          </figure>
+        </section>
+
+        <section id="contract">
+          <div class="section-heading"><span>Prototype as contract</span><i></i></div>
+          <h2 class="display">The prototype gave users and engineers something concrete to negotiate around.</h2>
+          <p>
+            Rather than wait for the API to settle, I built a functional single-page application using vanilla HTML and CSS, the internal design system’s web components, and Alpine.js for interaction.
+          </p>
+          <p>
+            This was more than a visual demonstration. The prototype connected real system concepts into an operable workflow, allowing users to respond to the experience while engineers evaluated how the API supported it. It became the standard contract for how people submitted jobs, followed their progress, and understood failures.
+          </p>
+
+          <figure class="placeholder-figure">
+            <div class="ascii-card"><pre>{diagrams.prototype}</pre></div>
+            <figcaption>Placeholder visual: the lightweight prototype stack and core job workflow.</figcaption>
+          </figure>
+        </section>
+
+        <section id="decision">
+          <div class="section-heading"><span>Key design decision</span><i></i></div>
+          <h2 class="display">The cleanest hierarchy on paper broke against the API.</h2>
+          <p>
+            A behavioral-testing job could trigger multiple test suites or collections, each containing its own executions. My initial design reflected that hierarchy directly: an accordion-style table where users could expand a suite to inspect the executions inside it.
+          </p>
+          <p>
+            The API exposed those levels through separate endpoints. One returned the suites associated with a job; another returned the executions within a specific suite. Populating the accordion would have divided the job into independently requested result sets, each with its own loading and error behavior. It mirrored the backend hierarchy, but fragmented the user’s primary task: understanding the job as a whole.
+          </p>
+
+          <div class="decision-grid">
+            <figure>
+              <div class="ascii-card"><pre>{diagrams.accordion}</pre></div>
+              <figcaption>Initial direction: executions nested beneath each suite.</figcaption>
+            </figure>
+            <figure>
+              <div class="ascii-card refined"><pre>{diagrams.refined}</pre></div>
+              <figcaption>Refined direction: suite cards scope one consistent execution list.</figcaption>
+            </figure>
+          </div>
+
+          <h3>I separated suite navigation from execution inspection.</h3>
+          <p>
+            I represented the suites as selectable cards above one canonical execution table. The cards preserved the structure of the job and showed what had been triggered. Selecting a card scoped the execution list without creating multiple independently loaded tables.
+          </p>
+          <p>
+            Suite selection established the initial scope. From there, users could progressively add filters as an investigation became more specific—building the query they needed without confronting a large fixed form upfront.
+          </p>
+        </section>
+
+        <section id="impact">
+          <div class="section-heading"><span>Impact</span><i></i></div>
+          <h2 class="display">The prototype became part of the platform’s operating model.</h2>
+          <p>
+            The page became the primary interface for people running offline behavioral tests across the autonomous-driving organization. It gave them one place to submit jobs, understand what a job triggered, follow execution status, narrow large result sets, and investigate errors.
+          </p>
+
+          <div class="impact-preview" aria-label="Project impact">
+            <div><strong>1 shared UI</strong><span>for job submission and inspection</span></div>
+            <div><strong>AV-wide use</strong><span>across offline behavioral testing</span></div>
+            <div><strong>Status + errors</strong><span>made visible in one workflow</span></div>
+          </div>
+
+          <figure class="placeholder-figure">
+            <div class="ascii-card"><pre>{diagrams.impact}</pre></div>
+            <figcaption>Placeholder visual: a job-level summary connecting status with error investigation.</figcaption>
+          </figure>
+        </section>
+
+        <section id="reflection">
+          <div class="section-heading"><span>Reflection</span><i></i></div>
+          <h2 class="display">A prototype can stabilize the experience before it stabilizes the architecture.</h2>
+          <p>
+            In a greenfield technical system, a coded prototype can become more than a proposed interface. It can act as a boundary object: something users, designers, and engineers use to negotiate terminology, behavior, and system expectations while the underlying platform is still evolving.
+          </p>
+          <p>
+            The API constraints did not simply limit the design. They clarified which concepts belonged in navigation, which belonged in filtering, and where the interface needed one authoritative view instead of a literal reproduction of the backend hierarchy.
+          </p>
+        </section>
+
+        <nav class="next" aria-label="Previous and next case studies">
+          <a href="/mlloop">← Closing the ML Data Loop</a>
+          <a href="/tecan">Digital Visual Factory →</a>
+        </nav>
+      </article>
+    </div>
+  </div>
 </MainLayout>
 
+<script>
+  const nav = document.querySelector<HTMLOListElement>("[data-case-nav]");
+  if (nav) {
+    const ids: string[] = JSON.parse(nav.dataset.sections ?? "[]");
+    const links = Array.from(nav.querySelectorAll<HTMLAnchorElement>("a"));
+    const indicator = nav.parentElement?.querySelector<HTMLElement>(".side-track span");
+
+    const activate = (id: string) => {
+      links.forEach((link) => link.toggleAttribute("aria-current", link.hash === `#${id}`));
+      const active = links.find((link) => link.hash === `#${id}`);
+      const item = active?.closest("li");
+      if (!item || !indicator) return;
+      const listRect = nav.getBoundingClientRect();
+      const itemRect = item.getBoundingClientRect();
+      indicator.style.transform = `translateY(${itemRect.top - listRect.top + (itemRect.height - indicator.offsetHeight) / 2}px)`;
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.find((entry) => entry.isIntersecting);
+        if (visible) activate(visible.target.id);
+      },
+      { rootMargin: "-15% 0px -65% 0px" }
+    );
+
+    ids.forEach((id) => {
+      const section = document.getElementById(id);
+      if (section) observer.observe(section);
+    });
+    activate(ids[0]);
+  }
+</script>
+
 <style>
-  .placeholder{min-height:calc(100vh - 88px);padding:3rem 0 8rem;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;max-width:1120px}
-  .placeholder>a{position:absolute;top:8rem;font-size:.78rem;color:var(--muted);text-underline-offset:4px}
-  .placeholder>p{margin:0 0 .75rem;font-size:.65rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
-  h1{max-width:720px;margin:0;font-size:clamp(2.6rem,5vw,4.5rem)}
+  .case-layout{--accent:#2c6bed;--visual-bg:var(--color-base-200);--visual-border:color-mix(in srgb,var(--ink) 10%,transparent);position:relative;display:grid;grid-template-columns:180px minmax(0,48rem) 180px;justify-content:center;gap:2.5rem}
+  .case-column{grid-column:2;min-width:0}
+  .story section{scroll-margin-top:2rem;padding:5rem 0 0}
+  .section-heading{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem;font-size:.82rem;font-weight:650;color:color-mix(in srgb,var(--ink) 72%,transparent)}
+  .section-heading i{display:block;flex:1;height:1px;background:color-mix(in srgb,var(--ink) 8%,transparent)}
+  .story h2{max-width:42rem;margin:.25rem 0 1rem;font-size:1.65rem;line-height:1.35;letter-spacing:-.02em}
+  .story h3{max-width:42rem;margin:2.25rem 0 .75rem;font-size:.9rem;line-height:1.35}
+  .story section>p{max-width:44rem;margin:.65rem 0;font-size:.9rem;line-height:1.55rem}
+  .placeholder-figure,.decision-grid figure{margin:2rem 0 0}
+  .ascii-card{overflow:auto;padding:1.4rem;border:1px solid var(--visual-border);border-radius:var(--radius-box);background:var(--visual-bg);box-shadow:none}
+  .ascii-card.refined{border-color:color-mix(in srgb,var(--accent) 28%,var(--visual-border));background:color-mix(in srgb,var(--accent) 4%,var(--color-base-200))}
+  pre{min-width:max-content;margin:0;font:500 clamp(.58rem,1.2vw,.7rem)/1.65 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;color:color-mix(in srgb,var(--ink) 72%,transparent)}
+  figcaption{margin-top:.5rem;font-size:.75rem;line-height:1.15rem;color:color-mix(in srgb,var(--ink) 45%,transparent)}
+  .decision-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;margin-top:2rem}
+  .decision-grid figure{min-width:0;margin:0}.decision-grid .ascii-card{height:100%;min-height:260px}
+  .impact-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin:2.25rem 0 .25rem;padding:1.5rem 0;border-top:1px solid var(--visual-border);border-bottom:1px solid var(--visual-border)}
+  .impact-preview strong{display:block;font:400 1.45rem/1.1 var(--font-display)}
+  .impact-preview span{display:block;margin-top:.45rem;font-size:.68rem;line-height:1rem;color:var(--muted)}
+  .next{display:flex;justify-content:space-between;gap:1rem;border-top:1px solid var(--line);margin-top:4rem;padding:1.5rem 0 2rem}.next a{font-size:.78rem;color:var(--muted);text-decoration:none}
+  @media(max-width:1100px){.case-layout{display:block;width:min(48rem,calc(100% - 48px))}}
+  @media(max-width:700px){
+    .case-layout{width:min(100% - 28px,48rem)}.story section{padding-top:3.75rem}.decision-grid,.impact-preview{grid-template-columns:1fr}.decision-grid .ascii-card{min-height:0}.impact-preview{gap:1.25rem}.impact-preview div+div{padding-top:1.1rem;border-top:1px solid var(--visual-border)}.ascii-card{padding:1rem}
+  }
 </style>

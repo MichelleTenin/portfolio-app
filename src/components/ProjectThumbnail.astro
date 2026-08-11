@@ -16,6 +16,32 @@ const slackPath = faSlack.icon[4];
 <div class={`thumbnail bg-base-200 ${kind ?? ""} ${compact ? "compact" : ""}`}>
   {src ? (
     <img src={src} alt={alt} loading="lazy" decoding="async" />
+  ) : kind === "teststudio" ? (
+    <div class="testing-workspace" role="img" aria-label={alt}>
+      <div class="testing-toolbar">
+        <i></i><i></i><i></i>
+        <span></span>
+      </div>
+      <div class="testing-body">
+        <div class="testing-sidebar">
+          <strong></strong>
+          <span></span><span></span><span></span>
+          <i class="testing-submit"></i>
+        </div>
+        <div class="testing-main">
+          <header><strong></strong><i></i></header>
+          <div class="suite-row"><span></span><span></span><span></span></div>
+          <div class="filter-row"><i></i><i></i><b></b></div>
+          <div class="execution-table">
+            <div class="table-head"><span></span><span></span><span></span></div>
+            <div><i></i><span></span><b></b></div>
+            <div><i></i><span></span><b></b></div>
+            <div><i></i><span></span><b></b></div>
+            <div><i></i><span></span><b></b></div>
+          </div>
+        </div>
+      </div>
+    </div>
   ) : kind === "dataworkspace" ? (
     <div class="data-workspace" role="img" aria-label={alt}>
       <svg class="flow-lines" viewBox="0 0 400 280" aria-hidden="true">
@@ -126,6 +152,16 @@ const slackPath = faSlack.icon[4];
   .thumbnail.compact .flow-lines{stroke-width:2.5}
   .thumbnail.compact .unified-pane{border-radius:3px;box-shadow:none}
   .thumbnail.compact .capability-card{border-radius:1px}
+
+  .testing-workspace{width:min(94%,720px);aspect-ratio:16/10;overflow:hidden;background:var(--color-base-100);border:1px solid var(--color-base-300);border-radius:8px;box-shadow:0 16px 40px color-mix(in srgb,var(--color-base-content) 7%,transparent)}
+  .testing-toolbar{height:12%;display:flex;align-items:center;gap:1.25%;padding:0 3%;background:color-mix(in srgb,var(--color-base-content) 5%,var(--color-base-100));border-bottom:1px solid var(--color-base-300)}
+  .testing-toolbar i{width:2.3%;aspect-ratio:1;border-radius:50%;background:color-mix(in srgb,var(--color-base-content) 18%,var(--color-base-200))}.testing-toolbar i:first-child{background:color-mix(in srgb,var(--coral) 62%,var(--color-base-200))}.testing-toolbar span{width:30%;height:20%;margin-left:3%;border-radius:99px;background:color-mix(in srgb,var(--color-base-content) 9%,var(--color-base-100))}
+  .testing-body{height:88%;display:grid;grid-template-columns:24% 1fr}
+  .testing-sidebar{padding:12% 12%;display:flex;flex-direction:column;gap:9%;background:var(--color-base-200);border-right:1px solid var(--color-base-300)}.testing-sidebar strong{width:65%;height:3.5%;margin-bottom:8%;border-radius:99px;background:color-mix(in srgb,var(--color-base-content) 50%,var(--color-base-200))}.testing-sidebar span{width:100%;height:3%;border-radius:99px;background:color-mix(in srgb,var(--color-base-content) 12%,var(--color-base-200))}.testing-sidebar span:nth-of-type(2){width:76%}.testing-submit{display:block;width:62%;height:9%;margin-top:auto;border-radius:4px;background:color-mix(in srgb,var(--color-primary) 68%,var(--color-base-200))}
+  .testing-main{display:block;padding:6% 7%;min-width:0}.testing-main header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6%}.testing-main header strong{width:35%;height:7px;border-radius:99px;background:color-mix(in srgb,var(--color-base-content) 65%,var(--color-base-100))}.testing-main header i{width:17%;height:13px;border-radius:3px;background:color-mix(in srgb,var(--color-primary) 60%,var(--color-base-100))}
+  .suite-row{display:grid;grid-template-columns:repeat(3,1fr);gap:3%;margin-bottom:4%}.suite-row span{height:38px;border:1px solid var(--color-base-300);border-radius:5px;background:var(--color-base-100)}.suite-row span:first-child{border-color:color-mix(in srgb,var(--color-primary) 48%,var(--color-base-300));background:color-mix(in srgb,var(--color-primary) 8%,var(--color-base-100))}
+  .filter-row{display:flex;align-items:center;gap:2%;margin-bottom:3%}.filter-row i{width:20%;height:13px;border-radius:99px;background:var(--color-base-200);border:1px solid var(--color-base-300)}.filter-row b{width:4%;aspect-ratio:1;margin-left:auto;border-radius:50%;background:color-mix(in srgb,var(--color-base-content) 10%,var(--color-base-100))}
+  .execution-table{overflow:hidden;border:1px solid var(--color-base-300);border-radius:5px}.execution-table>div{min-height:22px;display:grid;grid-template-columns:12% 1fr 15%;align-items:center;gap:5%;padding:0 4%;border-top:1px solid var(--color-base-300)}.execution-table .table-head{border-top:0;background:var(--color-base-200)}.execution-table span{height:4px;border-radius:99px;background:color-mix(in srgb,var(--color-base-content) 13%,var(--color-base-100))}.execution-table i{width:46%;aspect-ratio:1;border-radius:50%;background:color-mix(in srgb,var(--mint) 70%,var(--color-base-100))}.execution-table>div:nth-child(3) i{background:color-mix(in srgb,var(--coral) 66%,var(--color-base-100))}.execution-table b{height:5px;border-radius:99px;background:color-mix(in srgb,var(--color-base-content) 8%,var(--color-base-100))}
 
   .data-workspace{position:relative;width:min(94%,760px);aspect-ratio:10/7}
   .flow-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;fill:none;stroke:color-mix(in srgb,var(--color-base-content) 18%,transparent);stroke-width:1.5;stroke-linecap:round}
