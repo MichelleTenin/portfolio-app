@@ -9,6 +9,7 @@ const projects = [
   { href:"/aurora", kind:"aurora", image:assets.home.auroraThumbnail, title:"Cancer Survivorship Support", descriptor:"DFA / University of Washington", tags:["UX research", "Service design"], readTime:"3 min read", copy:"Bridging the gap between treatment and survivorship through a compassionate, hospital-based support system.", class:"supporting" },
   { href:"/tecan", kind:"tecan", image:assets.home.tecanThumbnail, title:"Digital Visual Factory", descriptor:"Medtech Manufacturing / Tecan", tags:["Workflow design", "Production code contributor"], readTime:"3 min read", copy:"Transforming paper-based assembly instructions into a clear, traceable production workflow.", class:"supporting" }
 ];
+const loopedProjects = [...projects, ...projects, ...projects];
 ---
 <MainLayout>
   <section class="shell landing-hero">
@@ -27,8 +28,8 @@ const projects = [
       </div>
     </div>
     <div class="project-grid" data-project-rail aria-label="Case studies">
-      {projects.map((p) => p.locked ? (
-        <article class={`project project-locked ${p.class}`} aria-label={`${p.title}, coming soon`}>
+      {loopedProjects.map((p, index) => p.locked ? (
+        <article key={index} class={`project project-locked ${p.class}`} aria-label={`${p.title}, coming soon`}>
           <div class="thumbnail-wrap coming-soon-card" aria-hidden="true">
             <span class="status-badge">Coming soon</span>
           </div>
@@ -47,7 +48,7 @@ const projects = [
           </div>
         </article>
       ) : (
-        <a href={p.href} class={`project ${p.class}`}>
+        <a key={index} href={p.href} class={`project ${p.class}`}>
           <div class="thumbnail-wrap">
             <ProjectThumbnail
               src={p.image}
@@ -90,6 +91,29 @@ const projects = [
     let animationFrame = 0;
     let previousTime = 0;
 
+    const getSegmentWidth = () => rail.scrollWidth / 3;
+
+    const resetRailToMiddle = () => {
+      const segmentWidth = getSegmentWidth();
+      if (!segmentWidth) return;
+      rail.scrollLeft = segmentWidth;
+    };
+
+    const normalizeRailPosition = () => {
+      const segmentWidth = getSegmentWidth();
+      if (!segmentWidth) return;
+
+      const leftThreshold = segmentWidth * 0.5;
+      const rightThreshold = segmentWidth * 2.5;
+      const position = rail.scrollLeft;
+
+      if (position < leftThreshold) {
+        rail.scrollLeft = position + segmentWidth;
+      } else if (position > rightThreshold) {
+        rail.scrollLeft = position - segmentWidth;
+      }
+    };
+
     const updateControls = () => {
       const maxScroll = rail.scrollWidth - rail.clientWidth;
       previous.disabled = rail.scrollLeft <= 2;
@@ -115,16 +139,20 @@ const projects = [
     const animateRail = (time: number) => {
       const elapsed = previousTime ? Math.min(time - previousTime, 50) : 0;
       previousTime = time;
-      const maxScroll = rail.scrollWidth - rail.clientWidth;
+      const segmentWidth = getSegmentWidth();
       const shouldMove = railIsVisible
         && !railIsHovered
         && !railHasFocus
         && !interactionPaused
         && !reducedMotion.matches
         && !mobileLayout.matches
-        && rail.scrollLeft < maxScroll - 1;
+        && segmentWidth > 0;
 
-      if (shouldMove) rail.scrollLeft += elapsed * 0.028;
+      if (shouldMove) {
+        rail.scrollLeft += elapsed * 0.028;
+        normalizeRailPosition();
+      }
+
       animationFrame = window.requestAnimationFrame(animateRail);
     };
 
@@ -141,14 +169,25 @@ const projects = [
     rail.addEventListener("focusout", () => { railHasFocus = rail.contains(document.activeElement); });
     rail.addEventListener("pointerdown", () => pauseForInteraction(2600), { passive: true });
     rail.addEventListener("wheel", () => pauseForInteraction(2200), { passive: true });
-    rail.addEventListener("scroll", updateControls, { passive: true });
+    rail.addEventListener("scroll", () => {
+      normalizeRailPosition();
+      updateControls();
+    }, { passive: true });
     window.addEventListener("resize", () => {
-      if (mobileLayout.matches) rail.scrollLeft = 0;
+      if (mobileLayout.matches) {
+        rail.scrollLeft = 0;
+      } else {
+        resetRailToMiddle();
+      }
       updateControls();
     });
+
     visibilityObserver.observe(rail);
-    animationFrame = window.requestAnimationFrame(animateRail);
-    updateControls();
+    window.requestAnimationFrame(() => {
+      if (!mobileLayout.matches) resetRailToMiddle();
+      updateControls();
+      animationFrame = window.requestAnimationFrame(animateRail);
+    });
 
     document.addEventListener("astro:before-swap", () => {
       visibilityObserver.disconnect();
